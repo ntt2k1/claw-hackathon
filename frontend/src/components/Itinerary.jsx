@@ -1,6 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
+import { api } from '../api.js'
 
 export default function Itinerary({ recommendations, loading, tripType, location, onRestart }) {
+  const [ratings, setRatings] = useState({})
+
+  async function handleRate(item, index, rating) {
+    const placeId = `${index}-${(item.name || '').replace(/\s+/g, '-').toLowerCase()}`
+    setRatings(prev => ({ ...prev, [placeId]: rating }))
+    try {
+      await api.ratePlace({
+        placeId,
+        placeName: item.name || '',
+        category: item.category || 'general',
+        rating,
+      })
+    } catch (e) {
+      console.warn('Rating failed:', e)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background pb-32 relative overflow-hidden">
       <div className="fixed top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
@@ -64,6 +82,36 @@ export default function Itinerary({ recommendations, loading, tripType, location
                         📍 {item.distance_from_prev}
                       </span>
                     )}
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-white/20 flex gap-3">
+                    {(() => {
+                      const placeId = `${i}-${(item.name || '').replace(/\s+/g, '-').toLowerCase()}`
+                      const current = ratings[placeId]
+                      return (
+                        <>
+                          <button
+                            onClick={() => handleRate(item, i, 'like')}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-label transition-colors ${
+                              current === 'like'
+                                ? 'bg-green-100 text-green-700 border border-green-300'
+                                : 'bg-white/50 text-on-surface-variant border border-white/30 hover:bg-green-50'
+                            }`}
+                          >
+                            👍 <span>Thích</span>
+                          </button>
+                          <button
+                            onClick={() => handleRate(item, i, 'dislike')}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-label transition-colors ${
+                              current === 'dislike'
+                                ? 'bg-red-50 text-red-600 border border-red-200'
+                                : 'bg-white/50 text-on-surface-variant border border-white/30 hover:bg-red-50'
+                            }`}
+                          >
+                            👎 <span>Không hợp</span>
+                          </button>
+                        </>
+                      )
+                    })()}
                   </div>
                 </div>
               </div>
