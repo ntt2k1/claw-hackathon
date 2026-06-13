@@ -13,7 +13,7 @@ async def save_vibe_profile(user_id: str, profile: dict) -> None:
     await _client.insert_memory_records_directly_async(
         id=AGENTBASE_MEMORY_ID,
         namespace=_namespace(user_id),
-        request=[record_str],
+        memoryRecords=[record_str],
     )
 
 async def get_vibe_profile(user_id: str) -> dict | None:
