@@ -284,22 +284,40 @@ GET  /api/auth/me         → trả user info + vibe_profile (dùng để check 
 POST /api/quiz/complete   → lưu vibe_profile sau khi làm quiz xong
 ```
 
-### Database
+### Storage — Hybrid Architecture
 
-SQLite cho hackathon (dễ setup, không cần external service). Schema:
+| Dữ liệu | Lưu ở đâu | Lý do |
+|---------|-----------|-------|
+| Email + password_hash | SQLite (local) | Memory Service không hỗ trợ auth credentials |
+| Vibe profile (scores, vibes) | AgentBase Memory Service | Platform-native, agent query trực tiếp |
+
+**SQLite** — chỉ 1 bảng tối giản:
 
 ```sql
 CREATE TABLE users (
-  id TEXT PRIMARY KEY,        -- UUID
+  id TEXT PRIMARY KEY,   -- UUID, dùng làm actorId cho Memory Service
   email TEXT UNIQUE NOT NULL,
   password_hash TEXT NOT NULL,
-  primary_vibe TEXT,
-  secondary_vibe TEXT,
-  vibe_scores TEXT,           -- JSON string
-  vibe_completed_at TEXT,
+  has_vibe BOOLEAN DEFAULT FALSE,
   created_at TEXT
 );
 ```
+
+**AgentBase Memory Service** — lưu vibe profile qua `insert-directly`:
+
+```json
+{
+  "actorId": "<user_id từ SQLite>",
+  "content": {
+    "primary_vibe": "explorer",
+    "secondary_vibe": "foodie",
+    "scores": { "foodie": 18, "explorer": 23, "culture": 12, "adventure": 9, "relaxation": 7 },
+    "completed_at": "2026-06-13T..."
+  }
+}
+```
+
+Truy xuất: `GET /memory-records?namespace=.../actors/{user_id}` → agent dùng trực tiếp trong tool `describe_vibe` mà không cần query DB nội bộ.
 
 ### Frontend Auth State
 
