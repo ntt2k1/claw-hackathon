@@ -236,9 +236,82 @@ Copy trực tiếp từ `example/ui/page1.html` và `example/ui/page2.html`:
 
 ---
 
+## Authentication & User Profile
+
+### Auth Flow — Email + Password
+
+```
+Màn hình Login/Register (trước Màn 0)
+  ├── Register: email + password → tạo account → vào Màn 0 (quiz)
+  ├── Login: email + password → kiểm tra vibe profile
+  │     ├── Đã có vibe → skip quiz → vào Màn 0 (chỉ nhập location + trip type) → Màn 5
+  │     └── Chưa có vibe → vào Màn 0 → quiz → Màn 4 → Màn 5
+  └── Token: JWT lưu trong localStorage, gửi kèm mọi API request
+```
+
+### Dữ liệu lưu trữ
+
+Chỉ lưu **vibe profile** của user — không lưu lịch sử recommend.
+
+```json
+{
+  "user_id": "uuid",
+  "email": "user@example.com",
+  "password_hash": "bcrypt hash",
+  "vibe_profile": {
+    "primary_vibe": "explorer",
+    "secondary_vibe": "foodie",
+    "scores": {
+      "foodie": 18,
+      "explorer": 23,
+      "culture": 12,
+      "adventure": 9,
+      "relaxation": 7
+    },
+    "completed_at": "2026-06-13T..."
+  }
+}
+```
+
+`vibe_profile` là `null` cho user mới chưa làm quiz.
+
+### API Endpoints bổ sung
+
+```
+POST /api/auth/register   → tạo user, trả JWT
+POST /api/auth/login      → xác thực, trả JWT
+GET  /api/auth/me         → trả user info + vibe_profile (dùng để check skip quiz)
+POST /api/quiz/complete   → lưu vibe_profile sau khi làm quiz xong
+```
+
+### Database
+
+SQLite cho hackathon (dễ setup, không cần external service). Schema:
+
+```sql
+CREATE TABLE users (
+  id TEXT PRIMARY KEY,        -- UUID
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  primary_vibe TEXT,
+  secondary_vibe TEXT,
+  vibe_scores TEXT,           -- JSON string
+  vibe_completed_at TEXT,
+  created_at TEXT
+);
+```
+
+### Frontend Auth State
+
+- Màn login/register hiển thị trước toàn bộ app (route `/login`)
+- Sau login: `GET /api/auth/me` → nếu `vibe_profile != null` → hiện Màn 0 rút gọn (chỉ location + trip type, không có quiz)
+- User có thể "Làm lại quiz" từ profile menu để cập nhật vibe
+
+---
+
 ## Out of Scope
 
-- Authentication / user accounts
+- Social login (Google/Facebook)
 - Lưu lịch sử chuyến đi
 - Tích hợp Google Maps API thực (distance là ước tính từ LLM)
 - Multi-language (chỉ tiếng Việt)
