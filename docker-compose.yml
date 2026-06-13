@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - LLM_BASE_URL=${LLM_BASE_URL}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - LLM_MODEL=${LLM_MODEL}
+      - JWT_SECRET=${JWT_SECRET}
+      - AGENTBASE_MEMORY_ID=${AGENTBASE_MEMORY_ID}
+      - AGENTBASE_STRATEGY_ID=${AGENTBASE_STRATEGY_ID}
+      - GREENNODE_CLIENT_ID=${GREENNODE_CLIENT_ID}
+      - GREENNODE_CLIENT_SECRET=${GREENNODE_CLIENT_SECRET}
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env

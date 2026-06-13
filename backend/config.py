@@ -12,7 +12,7 @@ JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_HOURS = 24 * 7  # 7 days
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./sole.db")
-SQLITE_PATH = os.getenv("SQLITE_PATH", "./sole.db")
+SQLITE_PATH = os.getenv("SQLITE_PATH", "./data/sole.db")
 
 AGENTBASE_MEMORY_ID = os.getenv("AGENTBASE_MEMORY_ID", "")
 AGENTBASE_STRATEGY_ID = os.getenv("AGENTBASE_STRATEGY_ID", "")
