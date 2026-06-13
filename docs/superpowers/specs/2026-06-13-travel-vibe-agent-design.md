@@ -169,10 +169,23 @@ POST /api/recommendations
 
 ### Deploy — GreenNode AgentBase
 
-- **Docker:** single container, frontend served bởi FastAPI static files hoặc riêng nginx
-- **Port:** 8000 (backend) + 3000 (frontend) hoặc unified port 8080
-- **Env vars:** `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`
+- **Docker:** single container, FastAPI serve cả API lẫn React static files — unified port 8080
+- **Build process:** `vite build` → `dist/` → FastAPI mount tại `/` bằng `StaticFiles`, fallback `index.html` cho SPA routing
+- **Port:** 8080 (duy nhất, GreenNode chỉ expose 1 port)
+- **Env vars:** `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`, `JWT_SECRET`, `GREENNODE_CLIENT_ID`, `GREENNODE_CLIENT_SECRET`
 - **Mode:** PUBLIC (không cần VPC cho hackathon)
+
+```
+Dockerfile build stages:
+  Stage 1 (node): npm install + vite build → /app/dist
+  Stage 2 (python): copy /app/dist + pip install + uvicorn main:app --port 8080
+```
+
+FastAPI routing:
+```
+/api/*        → backend handlers
+/*            → serve dist/index.html (catch-all cho React Router)
+```
 
 ---
 
