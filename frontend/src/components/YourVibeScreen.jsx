@@ -42,18 +42,21 @@ export default function YourVibeScreen({ vibeResult }) {
       .catch(() => {})
   }, [])
 
+  // Compute meta before hooks (hook must be called unconditionally)
+  const meta = vibeResult
+    ? (VIBE_META[vibeResult.primary] || { icon: '✨', label: vibeResult.primary, tagline: '', keyword: 'vietnam travel' })
+    : { icon: '✨', label: '', tagline: '', keyword: '' }
+  const photos = useUnsplash(meta.keyword)  // called unconditionally — correct
+
   if (!vibeResult) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 pb-20 text-center">
         <span className="text-5xl mb-4">✨</span>
         <h2 className="font-display text-headline-lg-mobile text-on-surface mb-2">Chưa có vibe</h2>
-        <p className="font-body text-body-md text-on-surface-variant">Làm bài quiz để khám phá vibe du lịch của bạn nhé!</p>
+        <p className="font-body text-body-md text-on-surface-variant">Làm bài quiz để khám phá vibe của bạn nhé!</p>
       </div>
     )
   }
-
-  const meta = VIBE_META[vibeResult.primary] || { icon: '✨', label: vibeResult.primary, tagline: '', keyword: 'vietnam travel' }
-  const photos = useUnsplash(meta.keyword)
 
   // Aggregate ratings by category
   const ratingsByCategory = {}
