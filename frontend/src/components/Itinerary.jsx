@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react'
+
 export default function Itinerary({ recommendations, loading, tripType, location, onRestart }) {
   return (
     <div className="min-h-screen bg-background pb-32 relative overflow-hidden">
@@ -91,25 +93,70 @@ export default function Itinerary({ recommendations, loading, tripType, location
   )
 }
 
+const STEPS = [
+  { icon: '🧠', label: 'Phân tích vibe của bạn...' },
+  { icon: '🔍', label: 'Tìm kiếm địa điểm phù hợp...' },
+  { icon: '🗺️', label: 'Sắp xếp lịch trình tối ưu...' },
+]
+
 function SkeletonItinerary() {
+  const [elapsed, setElapsed] = useState(0)
+  const [stepIdx, setStepIdx] = useState(0)
+  const startRef = useRef(Date.now())
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setElapsed(Math.floor((Date.now() - startRef.current) / 1000))
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    const stepper = setInterval(() => {
+      setStepIdx(i => (i + 1) % STEPS.length)
+    }, 3000)
+    return () => clearInterval(stepper)
+  }, [])
+
+  const mins = Math.floor(elapsed / 60)
+  const secs = elapsed % 60
+  const timeStr = mins > 0
+    ? `${mins}:${String(secs).padStart(2, '0')}`
+    : `${secs}s`
+
   return (
-    <div className="space-y-4 animate-pulse">
-      {[1, 2, 3, 4].map(i => (
-        <div key={i} className="flex gap-4 items-start">
-          <div className="flex flex-col items-center flex-shrink-0">
-            <div className="w-4 h-4 bg-primary/30 rounded-full mt-1" />
-            {i < 4 && <div className="w-0.5 bg-primary/10 mt-1" style={{ minHeight: '2rem' }} />}
-          </div>
-          <div className="flex-1 bg-surface-container rounded-lg p-stack-md">
-            <div className="h-4 bg-surface-container-high rounded w-3/4 mb-2" />
-            <div className="h-3 bg-surface-container-high rounded w-full mb-1" />
-            <div className="h-3 bg-surface-container-high rounded w-2/3" />
-          </div>
+    <div className="space-y-6">
+      {/* Timer card */}
+      <div className="glass-card rounded-xl p-6 text-center">
+        <div className="text-4xl mb-3 animate-float inline-block">{STEPS[stepIdx].icon}</div>
+        <p className="font-label text-label-md text-on-surface-variant mb-3">
+          {STEPS[stepIdx].label}
+        </p>
+        <div className="inline-flex items-center gap-2 sunset-gradient px-4 py-2 rounded-full">
+          <span className="material-symbols-outlined text-white text-base">schedule</span>
+          <span className="font-label text-label-md text-white tabular-nums">{timeStr}</span>
         </div>
-      ))}
-      <p className="text-center font-label text-label-md text-on-surface-variant mt-4 animate-pulse">
-        Agent đang tìm địa điểm phù hợp cho bạn...
-      </p>
+        <p className="font-label text-caption text-on-surface-variant mt-3">
+          LLM đang xử lý — thường mất 15–30 giây
+        </p>
+      </div>
+
+      {/* Skeleton cards */}
+      <div className="space-y-4 animate-pulse">
+        {[1, 2, 3, 4].map(i => (
+          <div key={i} className="flex gap-4 items-start">
+            <div className="flex flex-col items-center flex-shrink-0">
+              <div className="w-4 h-4 bg-primary/30 rounded-full mt-1" />
+              {i < 4 && <div className="w-0.5 bg-primary/10 mt-1" style={{ minHeight: '2rem' }} />}
+            </div>
+            <div className="flex-1 bg-surface-container rounded-lg p-stack-md">
+              <div className="h-4 bg-surface-container-high rounded w-3/4 mb-2" />
+              <div className="h-3 bg-surface-container-high rounded w-full mb-1" />
+              <div className="h-3 bg-surface-container-high rounded w-2/3" />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
