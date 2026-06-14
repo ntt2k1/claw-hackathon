@@ -14,7 +14,13 @@ async def init_db():
                 email TEXT UNIQUE NOT NULL,
                 password_hash TEXT NOT NULL,
                 has_vibe INTEGER DEFAULT 0,
+                vibe_json TEXT,
                 created_at TEXT NOT NULL
             )
         """)
+        # migrate existing DBs that don't have vibe_json yet
+        try:
+            await db.execute("ALTER TABLE users ADD COLUMN vibe_json TEXT")
+        except Exception:
+            pass
         await db.commit()

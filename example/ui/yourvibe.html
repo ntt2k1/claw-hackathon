@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SOLE - Personality Discovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"tertiary-container": "#b8f2fe", "primary-container": "#ffaba8", "on-tertiary": "#edfcff", "on-tertiary-fixed": "#014a54", "error-container": "#fa7150", "on-surface": "#53251b", error: "#aa371c", "on-surface-variant": "#885044", primary: "#9d4241", "surface-tint": "#9d4241", "surface-bright": "#fff8f6", "on-tertiary-container": "#205d67", "on-secondary-fixed-variant": "#38616e", tertiary: "#2c6771", "surface-variant": "#ffdad3", "surface-container": "#ffe9e5", "outline-variant": "#e7a192", "on-primary": "#fff7f6", "surface-container-high": "#ffe2dc", "secondary-fixed": "#bfe9f8", "on-secondary": "#f0fbff", "surface-container-lowest": "#ffffff", "surface-container-highest": "#ffdad3", "on-secondary-fixed": "#194551", surface: "#fff8f6", "on-primary-fixed": "#53090f", secondary: "#3c6572", "tertiary-fixed-dim": "#aae3ef", "secondary-container": "#bfe9f8", "on-primary-container": "#702022", "surface-dim": "#ffcfc5", "on-primary-fixed-variant": "#7c292a", "on-background": "#53251b", "on-secondary-container": "#2e5764", "surface-container-low": "#fff0ee", "inverse-primary": "#f88885", "inverse-on-surface": "#be938a", "primary-fixed": "#ffaba8", "primary-fixed-dim": "#ff9693", "on-error-container": "#671200", "secondary-fixed-dim": "#b1dbea", "on-error": "#fff7f6", "tertiary-fixed": "#b8f2fe", background: "#fff8f6", "inverse-surface": "#1e0704", outline: "#a86b5e", "on-tertiary-fixed-variant": "#2c6771", "error-dim": "#821a01", "secondary-dim": "#305965", "tertiary-dim": "#1e5b65", "primary-dim": "#8e3636"}, borderRadius: {DEFAULT: "1rem", lg: "2rem", xl: "3rem", full: "9999px"}, spacing: {unit: "8px", "stack-md": "16px", "stack-sm": "8px", gutter: "16px", "container-margin": "24px", "stack-lg": "32px", "section-gap": "48px"}, fontFamily: {"display-lg": ["Plus Jakarta Sans"], "label-md": ["Montserrat"], "headline-md": ["Plus Jakarta Sans"], caption: ["Montserrat"], "headline-lg": ["Plus Jakarta Sans"], "body-lg": ["Montserrat"], "body-md": ["Montserrat"], "headline-lg-mobile": ["Plus Jakarta Sans"], headline: ["Plus Jakarta Sans"], display: ["Plus Jakarta Sans"], body: ["Montserrat"], label: ["Montserrat"]}, fontSize: {"display-lg": ["48px", {lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800"}], "label-md": ["14px", {lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "600"}], "headline-md": ["24px", {lineHeight: "1.3", fontWeight: "700"}], caption: ["12px", {lineHeight: "1.4", fontWeight: "500"}], "headline-lg": ["32px", {lineHeight: "1.2", fontWeight: "700"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "1.5", fontWeight: "400"}], "headline-lg-mobile": ["28px", {lineHeight: "1.2", fontWeight: "700"}]}}}};</script>
+<style>
+        body {
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(174, 47, 52, 0.05);
+        }
+        .sunset-gradient {
+            background: linear-gradient(135deg, #ae2f34 0%, #ff6b6b 100%);
+        }
+        .progress-bar-glow {
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.4);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .card-active {
+            outline: 4px solid #ae2f34;
+            transform: scale(1.02);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col min-h-screen">
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-white/20 shadow-sm flex justify-between items-center px-container-margin h-16">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform">arrow_back</span>
+</div>
+<h1 class="font-display-lg text-headline-lg-mobile text-primary tracking-tighter">SOLE</h1>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a stylish Gen Z woman with soft, natural lighting illuminating her face. She has a confident, serene expression, wearing modern minimalist accessories. The background is a soft-focus artistic blur of warm sunset tones and cool urban shadows, reflecting a high-end, aesthetic travel lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADlD32iSAoZ3jTo0YiVeVfQX5WLCpxxNaytCOvgF6nCLcBp3dW2-PZZTCrmMCDsuMl-z3dE32zazp72MbDd6NXeGEXEar11jXXnijXYbucK4q7bGS6TOeIsBDSyLJNcBh-ftY6vmzdxit-bqUBo_g6c-xU-eWsjt_o0_8QAH_PfTbJpYT22DQ4Y3v2X-xJUJmvLfGCFfSQx-rS_e2ceSpwVBsDVDaF8_Ci-R-bzWQh_Om8yQTuSw2Luz9gboLYyPJ1k9uk0BKKW5k"/>
+</div>
+</header>
+<main class="flex-grow pt-24 pb-32 px-container-margin max-w-lg mx-auto w-full">
+<div class="mb-stack-lg">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-md text-label-md text-primary uppercase tracking-widest">Step 2 of 3</span>
+<span class="font-label-md text-label-md text-on-surface-variant">66%</span>
+</div>
+<div class="h-3 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full sunset-gradient w-[66%] rounded-full progress-bar-glow transition-all duration-700 ease-out"></div>
+</div>
+</div>
+<section class="mb-stack-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile mb-4 text-on-surface">Your ideal evening energy is...</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Swipe to explore and tap to choose your vibe.</p>
+</section>
+<div class="flex flex-col gap-6">
+<div class="relative group cursor-pointer overflow-hidden rounded-lg glass-card transition-all duration-300 hover:shadow-xl active:scale-95" onclick="selectOption(this)">
+<div class="h-64 w-full relative">
+<img class="w-full h-full object-cover" data-alt="A vibrant, bustling night market in East Asia, filled with glowing neon signs and steam rising from street food stalls. The atmosphere is energetic and high-contrast, with deep shadows and brilliant pops of pink, red, and orange light. People are blurred in motion, creating a sense of life and excitement under a dark indigo night sky." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEXw2GbdX7Sl5BkiLVGvpaZw4pmNeWqAp1Zhj7Q77BJs8iKXehsNJKWQHDs9qjBh22gfVwDzxZmdydSbtrUSjSzOBGP_6kcEOTqKlUljSblGmkLcnbczMBoqJWbSH8acoePcwIKaJrB-FbeHwfR4uLBKUb-6PLQPpikYsiDVM-1QFYRSO2tkS5qpHKGcNX1v-bHf_SlQcrUk3QMfkr9nn3ORE0REDM0LGdc3HOhEDwU0Qa9nSiGeKZCAPJPWQWOE3pwYGDnDZTBu0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<h3 class="font-headline-md text-white">A bustling night market</h3>
+<p class="font-body-md text-white/80 text-sm">Energy, street food, and neon lights.</p>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-0 transition-opacity check-mark">
+<div class="bg-primary-container text-white rounded-full p-2">
+<span class="material-symbols-outlined">check</span>
+</div>
+</div>
+</div>
+<div class="relative group cursor-pointer overflow-hidden rounded-lg glass-card transition-all duration-300 hover:shadow-xl active:scale-95" onclick="selectOption(this)">
+<div class="h-64 w-full relative">
+<img class="w-full h-full object-cover" data-alt="A serene and breathtaking sunset view from a high-altitude balcony overlooking a calm ocean. The sky is painted in soft pastels of peach, lavender, and gold. The lighting is ethereal and warm, creating a tranquil, high-fidelity aesthetic. The minimal furniture on the balcony adds a sense of premium, quiet luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgPoIj2sO_Xof1I9tXhv6Im0XRDb2Fkfx35UytpglH5l4wcT5fcggCSUssXheyvhIbznc1tObhnDQFWUyIi1VK72r9w_8r3h-ZSK0dqyx0k1O7Awiyl-yhFiptoXhwnSdRLy8OOFOeJ701Q2Lcpk3Vcev4QyK9HMoKyaBRXRRgmL97mgA6Uwh6ybF3uwQOKikYc0a-08ao5LfVcQYBMv5VCheSob2M39s2Ef888fO0O1w4kkKrgLid37LuK_LKF-9abR9G7bJN_T0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<h3 class="font-headline-md text-white">A quiet sunset view</h3>
+<p class="font-body-md text-white/80 text-sm">Peace, golden hour, and reflection.</p>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-0 transition-opacity check-mark">
+<div class="bg-primary-container text-white rounded-full p-2">
+<span class="material-symbols-outlined">check</span>
+</div>
+</div>
+</div>
+<div class="relative group cursor-pointer overflow-hidden rounded-lg glass-card transition-all duration-300 hover:shadow-xl active:scale-95" onclick="selectOption(this)">
+<div class="h-64 w-full relative">
+<img class="w-full h-full object-cover" data-alt="An intimate, hidden experimental bar with dark moody lighting and dramatic spotlights on colorful cocktail alchemy. The interior features rich textures like velvet and polished wood, with a palette of deep purples and warm ambers. The atmosphere is sophisticated, mysterious, and deeply aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWtAJ1QEvZGfn425gZCBbhpBXQEiZT3Ypu54fAWRAE49WGLU1j_zpfSavuRVlFrEQ4VqmG-kJhGzK_b66u6T-hE0M1tbOA_AvKXhhc5PClVaqcDq0WegNnXQAvzDeBgYGSgJ1ALBGv08wCMS5IAvqgEi0lBe6YH7WZzHRdHEicgkfa8QWLZWK_er5agXwo54IpnQSztplGSeqv2_CXFJvZTwU5_45Usz2feEgr_GULp6a3jtIaCYWpJMNY5dUiVSMv32BZtAbP5l8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<h3 class="font-headline-md text-white">A hidden experimental bar</h3>
+<p class="font-body-md text-white/80 text-sm">Cocktails, mystery, and deep house.</p>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-0 transition-opacity check-mark">
+<div class="bg-primary-container text-white rounded-full p-2">
+<span class="material-symbols-outlined">check</span>
+</div>
+</div>
+</div>
+<div class="relative group cursor-pointer overflow-hidden rounded-lg glass-card transition-all duration-300 hover:shadow-xl active:scale-95" onclick="selectOption(this)">
+<div class="h-64 w-full relative">
+<img class="w-full h-full object-cover" data-alt="A cozy boutique stay interior featuring high-end linen bedding, soft ambient lighting, and curated art pieces. Large floor-to-ceiling windows reveal a soft twilight glow outside. The room feels warm, inviting, and meticulously designed, with a focus on tactile comfort and premium materials in a light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4eq8BW9T6OKNIl-Iws4IPQIrO8CNIxqdbPhYefDniPlOFAixf3XAt_Og-IWcGCIsjJVzCII7WIQ0ybi7yz7lC2CeFJ2dGYEZv8c0r09nVSkb7dIjv5tuJxS45x9b7GnYukrGOiHNvSPdVZsoA5AUBx4Z6K-sFjMd8Qkfk4sG3xp9J4kz0PSJSIFjtitC1io-TbUOdmX_jSErSrVtSZeq7tm_ss_CmFKX4681bFo1O9KPbDmZixXgIIGkhCEa0AqSX2z6BXaedA8E"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<h3 class="font-headline-md text-white">A cozy boutique stay</h3>
+<p class="font-body-md text-white/80 text-sm">Comfort, silk robes, and late night movies.</p>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-0 transition-opacity check-mark">
+<div class="bg-primary-container text-white rounded-full p-2">
+<span class="material-symbols-outlined">check</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-stack-lg flex justify-center">
+<button class="sunset-gradient text-white font-label-md text-label-md px-12 py-4 rounded-full shadow-lg hover:opacity-90 active:scale-95 transition-all w-full flex items-center justify-center gap-2">
+                CONTINUE
+                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</main>
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] max-w-md z-50 flex justify-around items-center h-20 bg-surface/80 backdrop-blur-2xl rounded-full border border-white/20 shadow-lg">
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 opacity-70 hover:bg-primary/10 rounded-full transition-all active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-md text-label-md">Discover</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-2 scale-110 transition-all active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-md text-label-md">My Vibes</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 opacity-70 hover:bg-primary/10 rounded-full transition-all active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md text-label-md">Journey</span>
+</div>
+</nav>
+<script>
+        function selectOption(element) {
+            // Remove selection from all cards
+            document.querySelectorAll('.glass-card').forEach(card => {
+                card.classList.remove('card-active');
+                card.querySelector('.check-mark').classList.add('opacity-0');
+            });
+            
+            // Add selection to clicked card
+            element.classList.add('card-active');
+            element.querySelector('.check-mark').classList.remove('opacity-0');
+            
+            // Subtle haptic feedback feel
+            element.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                element.style.transform = '';
+            }, 100);
+        }
+
+        // Entrance animation for cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * (index + 1));
+            });
+        });
+    </script>
+</body></html>

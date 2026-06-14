@@ -1,0 +1,167 @@
+<h2>Thiết kế Bộ Câu Hỏi + Scoring</h2>
+<p class="subtitle">15 câu hỏi × 3 màn — phân loại 5 nhóm Gout</p>
+
+<div class="section">
+  <span class="label">5 Nhóm Gout</span>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+    <span style="background:#f97316;color:#fff;padding:4px 12px;border-radius:20px;font-size:13px">🍜 Foodie</span>
+    <span style="background:#8b5cf6;color:#fff;padding:4px 12px;border-radius:20px;font-size:13px">🗺️ Explorer</span>
+    <span style="background:#0ea5e9;color:#fff;padding:4px 12px;border-radius:20px;font-size:13px">🏛️ Culture</span>
+    <span style="background:#ef4444;color:#fff;padding:4px 12px;border-radius:20px;font-size:13px">⚡ Adventure</span>
+    <span style="background:#22c55e;color:#fff;padding:4px 12px;border-radius:20px;font-size:13px">🌿 Relaxation</span>
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Màn 1 — Sở thích chung (5 câu, Single Choice)</span>
+  <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q1. Khi đến thành phố mới, việc đầu tiên bạn làm là gì?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Tìm ngay nhà hàng/quán ăn nổi tiếng <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. Mở bản đồ tìm khu vực chưa ai biết <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Đến bảo tàng hoặc di tích lịch sử <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Tìm trail hiking hoặc hoạt động ngoài trời <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Check-in khách sạn, nghỉ ngơi trước <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q2. Bạn nhớ nhất điều gì sau một chuyến đi?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Món ăn đặc sản đã thử <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. Khu phố bí ẩn tự tìm được <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Câu chuyện lịch sử/văn hóa địa phương <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Trải nghiệm mạo hiểm đã làm <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Cảm giác thư giãn, xả stress <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q3. Weekend rảnh trong thành phố, bạn chọn gì?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Thử nhà hàng mới hoặc đi food tour <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. Khám phá con phố chưa từng đến <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Xem triển lãm/tham quan bảo tàng <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Leo núi/chạy bộ/thể thao ngoài trời <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Cà phê sách, spa, hoặc ở nhà nghỉ <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q4. Bạn hay xem loại nội dung gì khi plan du lịch?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Review món ăn, food vlog <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. "Hidden gems", off-the-beaten-path <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Lịch sử, phong tục, tài liệu văn hóa <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Outdoor activities, extreme sports <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Resort review, wellness retreat <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q5. Ngân sách du lịch bạn ưu tiên chi vào đâu nhất?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Ẩm thực — thử nhiều món nhất có thể <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. Vé tham quan nhiều nơi + di chuyển <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Bảo tàng, tour lịch sử có hướng dẫn <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Hoạt động thể thao/mạo hiểm <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Khách sạn/spa chất lượng cao <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Màn 2 — Tình huống thực tế (5 câu, Single Choice)</span>
+  <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q6. Bạn đến khu chợ địa phương, bạn làm gì?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Thử tất cả đồ ăn vặt có thể <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. Đi hết từng góc, chụp ảnh mọi thứ <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Hỏi người bán về câu chuyện đằng sau sản phẩm <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Tìm trò chơi/hoạt động để tham gia <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Ngồi một chỗ, nhâm nhi cà phê, ngắm người <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q7. Còn 2 tiếng trống ở thành phố lạ, bạn chọn gì?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Tìm quán ăn local nổi tiếng gần đó <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. Đi bộ khám phá khu vực xung quanh <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Tìm gallery hoặc công trình kiến trúc nổi bật <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Thuê xe đạp/scooter đi vòng quanh <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Tìm quán cà phê yên tĩnh ngồi đọc sách <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q8. Đi cùng nhóm bạn, bạn thường là người...?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Đề xuất và chọn nhà hàng <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. Tìm địa điểm "ít người biết" để khám phá <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Gợi ý tham quan khu lịch sử/bảo tàng <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Rủ mọi người thử hoạt động mới lạ <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Nhường quyết định, miễn thoải mái là được <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q9. Bạn chọn loại chỗ ở nào?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Airbnb gần khu ẩm thực sầm uất <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. Hostel/nhà dân để gặp gỡ người địa phương <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Nhà trọ truyền thống/boutique có lịch sử <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Lều trại, glamping, cabin trong rừng <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Resort 4-5 sao, villa có hồ bơi <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-weight:600;margin-bottom:6px">Q10. Sau chuyến đi, bạn hay chia sẻ gì lên mạng?</div>
+      <div style="font-size:13px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px">
+        <span>A. Ảnh đồ ăn và review nhà hàng <strong style="color:#f97316">→ Foodie +2</strong></span>
+        <span>B. Ảnh góc phố/khu vực ít người biết <strong style="color:#8b5cf6">→ Explorer +2</strong></span>
+        <span>C. Ảnh địa danh lịch sử kèm story <strong style="color:#0ea5e9">→ Culture +2</strong></span>
+        <span>D. Video hoạt động thể thao/mạo hiểm <strong style="color:#ef4444">→ Adventure +2</strong></span>
+        <span>E. Ảnh view đẹp, không gian thư giãn <strong style="color:#22c55e">→ Relaxation +2</strong></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Màn 3 — Rating Scale 1–5 (5 câu, một câu/nhóm)</span>
+  <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+    <div style="border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-size:13px;display:flex;flex-direction:column;gap:6px">
+        <span><strong style="color:#f97316">R1 (Foodie):</strong> "Tôi sẵn sàng đi xa hơn chỉ để thử một món ăn đặc biệt"</span>
+        <span><strong style="color:#8b5cf6">R2 (Explorer):</strong> "Tôi thích khám phá những nơi không có trong guidebook"</span>
+        <span><strong style="color:#0ea5e9">R3 (Culture):</strong> "Hiểu văn hóa địa phương quan trọng hơn chụp được nhiều ảnh đẹp"</span>
+        <span><strong style="color:#ef4444">R4 (Adventure):</strong> "Chuyến đi mà không có gì thử thách là chuyến đi nhàm chán"</span>
+        <span><strong style="color:#22c55e">R5 (Relaxation):</strong> "Sau chuyến đi tôi cần cảm thấy được nạp lại năng lượng, không phải mệt hơn"</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <span class="label">Hệ thống Tính Điểm</span>
+  <div style="margin-top:10px;background:var(--surface-2);border-radius:8px;padding:14px;font-size:13px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div><strong>Màn 1+2</strong><br>Single choice: +2 điểm/câu đúng nhóm<br>10 câu × max 2 = <strong>20 điểm</strong></div>
+      <div><strong>Màn 3</strong><br>Rating 1–5: cộng trực tiếp<br>1 câu/nhóm = <strong>max 5 điểm</strong></div>
+      <div><strong>Tổng</strong><br>Max mỗi nhóm: <strong>25 điểm</strong><br>Nhóm cao nhất = Primary Vibe</div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:16px;padding:12px;border:2px solid var(--border);border-radius:8px;background:var(--surface-2);font-size:13px">
+  <strong>Lưu ý:</strong> Nếu 2 nhóm chênh nhau ≤ 3 điểm → hiển thị cả 2 vibe (hybrid profile). Giúp kết quả cá nhân hóa hơn.
+</div>

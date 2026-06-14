@@ -1,0 +1,70 @@
+<h2>Approach cho UI/UX</h2>
+<p class="subtitle">Chọn hướng thiết kế tổng thể cho 5 màn hình</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#1a1a2e,#16213e);padding:16px;min-height:140px;display:flex;flex-direction:column;gap:8px">
+      <div style="background:#f97316;border-radius:20px;height:8px;width:60%"></div>
+      <div style="background:#ffffff22;border-radius:8px;padding:10px;font-size:11px;color:#fff">
+        <div style="margin-bottom:6px;font-weight:600;color:#f97316">Câu 1 / 15</div>
+        <div style="margin-bottom:8px">Bạn có một buổi chiều tự do...</div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="background:#f9731620;border:1px solid #f97316;border-radius:6px;padding:5px 8px;font-size:10px">A. Hứng khởi — tìm chỗ ăn ngon</div>
+          <div style="background:#ffffff10;border-radius:6px;padding:5px 8px;font-size:10px;color:#aaa">B. Tò mò — đi lang thang</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Quiz từng câu</h3>
+      <p>Mỗi câu một màn, thanh progress bar, chọn xong tự next. Cảm giác như BuzzFeed quiz — nhanh, nhịp độ tốt, không bị overwhelm.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#0f2027,#203a43);padding:16px;min-height:140px">
+      <div style="font-size:10px;color:#aaa;margin-bottom:8px">MÀIN 1 — BẠN LÀ AI?</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="background:#ffffff10;border-radius:6px;padding:8px;font-size:10px;color:#fff">
+          <div style="color:#8b5cf6;margin-bottom:3px;font-weight:600">Q1.</div>
+          Buổi chiều tự do bạn cảm thấy...
+          <div style="display:flex;gap:4px;margin-top:5px;flex-wrap:wrap">
+            <span style="background:#f9731630;border-radius:4px;padding:2px 6px">Hứng khởi</span>
+            <span style="background:#8b5cf630;border-radius:4px;padding:2px 6px">Tò mò</span>
+          </div>
+        </div>
+        <div style="background:#ffffff10;border-radius:6px;padding:8px;font-size:10px;color:#fff">
+          <div style="color:#8b5cf6;margin-bottom:3px;font-weight:600">Q2.</div>
+          Khi stress bạn hay...
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Scroll từng màn</h3>
+      <p>5 câu hiển thị cùng lúc trên 1 màn, scroll xuống trả lời tuần tự. Nhấn "Tiếp theo" để qua màn 2. Ít bước hơn, nhưng dày hơn.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#0d1117,#161b22);padding:16px;min-height:140px;display:flex;flex-direction:column;justify-content:center;align-items:center">
+      <div style="text-align:center">
+        <div style="font-size:28px;margin-bottom:8px">🌤️</div>
+        <div style="font-size:12px;color:#e6edf3;font-weight:600;margin-bottom:6px">Nếu bạn là thời tiết...</div>
+        <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+          <div style="background:#f9731620;border:1px solid #f97316;border-radius:8px;padding:6px 10px;font-size:10px;color:#f97316">🍂 Thu se lạnh</div>
+          <div style="background:#8b5cf620;border:1px solid #8b5cf6;border-radius:8px;padding:6px 10px;font-size:10px;color:#8b5cf6">🌫️ Sương sớm</div>
+          <div style="background:#22c55e20;border:1px solid #22c55e;border-radius:8px;padding:6px 10px;font-size:10px;color:#22c55e">☀️ Nắng nhẹ</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Card swipe / big choice</h3>
+      <p>Mỗi câu chiếm full màn hình, chọn bằng card lớn có icon/emoji. Visual mạnh, trải nghiệm immersive. Phù hợp mobile. Chậm hơn nhưng đẹp hơn.</p>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:16px;font-size:12px;color:var(--text-muted);padding:10px;border-left:3px solid var(--border)">
+  Gợi ý: <strong>A</strong> nếu ưu tiên UX nhanh và dev đơn giản — <strong>C</strong> nếu muốn trải nghiệm "wow" và visual-first
+</div>

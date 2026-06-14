@@ -140,6 +140,16 @@ export default function App() {
     setScreen('ENTRY')
   }
 
+  function handleLogout() {
+    api.clearToken()
+    setUser(null)
+    setVibeResult(null)
+    setQuizAnswers([])
+    setRecommendations(null)
+    setActiveTab('explore')
+    setScreen('AUTH')
+  }
+
   function handleRetakeQuiz() {
     setQuizAnswers([])
     setVibeResult(null)
@@ -165,12 +175,12 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background">
       {screen === 'AUTH'       && <AuthScreen onSuccess={handleAuthSuccess} />}
-      {screen === 'ENTRY'      && <EntryScreen user={user} vibeResult={vibeResult} onDone={handleEntryDone} onRetakeQuiz={handleRetakeQuiz} />}
+      {screen === 'ENTRY'      && <EntryScreen user={user} vibeResult={vibeResult} onDone={handleEntryDone} onRetakeQuiz={handleRetakeQuiz} onLogout={handleLogout} />}
       {screen === 'QUIZ1'      && <QuizScreen questions={screen1Qs} screenIndex={1} totalScreens={2} onDone={handleQuiz1Done} />}
       {screen === 'QUIZ2'      && <QuizScreen questions={screen2Qs} screenIndex={2} totalScreens={2} onDone={handleQuiz2Done} />}
       {screen === 'VIBE'       && <VibeResult vibeResult={vibeResult} onContinue={handleGetRecommendations} />}
       {screen === 'ITINERARY'  && <Itinerary recommendations={recommendations} loading={loadingRec} tripType={tripType} location={location} onRestart={handleRestart} />}
-      {screen === 'YOUR_VIBE'  && <YourVibeScreen vibeResult={vibeResult} />}
+      {screen === 'YOUR_VIBE'  && <YourVibeScreen vibeResult={vibeResult} user={user} onLogout={handleLogout} />}
       {showNav && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
     </div>
   )

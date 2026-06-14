@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SOLE - Your Travel Vibe</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Montserrat:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"tertiary-container": "#b8f2fe", "primary-container": "#ffaba8", "on-tertiary": "#edfcff", "on-tertiary-fixed": "#014a54", "error-container": "#fa7150", "on-surface": "#53251b", error: "#aa371c", "on-surface-variant": "#885044", primary: "#9d4241", "surface-tint": "#9d4241", "surface-bright": "#fff8f6", "on-tertiary-container": "#205d67", "on-secondary-fixed-variant": "#38616e", tertiary: "#2c6771", "surface-variant": "#ffdad3", "surface-container": "#ffe9e5", "outline-variant": "#e7a192", "on-primary": "#fff7f6", "surface-container-high": "#ffe2dc", "secondary-fixed": "#bfe9f8", "on-secondary": "#f0fbff", "surface-container-lowest": "#ffffff", "surface-container-highest": "#ffdad3", "on-secondary-fixed": "#194551", surface: "#fff8f6", "on-primary-fixed": "#53090f", secondary: "#3c6572", "tertiary-fixed-dim": "#aae3ef", "secondary-container": "#bfe9f8", "on-primary-container": "#702022", "surface-dim": "#ffcfc5", "on-primary-fixed-variant": "#7c292a", "on-background": "#53251b", "on-secondary-container": "#2e5764", "surface-container-low": "#fff0ee", "inverse-primary": "#f88885", "inverse-on-surface": "#be938a", "primary-fixed": "#ffaba8", "primary-fixed-dim": "#ff9693", "on-error-container": "#671200", "secondary-fixed-dim": "#b1dbea", "on-error": "#fff7f6", "tertiary-fixed": "#b8f2fe", background: "#fff8f6", "inverse-surface": "#1e0704", outline: "#a86b5e", "on-tertiary-fixed-variant": "#2c6771", "error-dim": "#821a01", "secondary-dim": "#305965", "tertiary-dim": "#1e5b65", "primary-dim": "#8e3636"}, borderRadius: {DEFAULT: "1rem", lg: "2rem", xl: "3rem", full: "9999px"}, spacing: {unit: "8px", "stack-md": "16px", "stack-sm": "8px", gutter: "16px", "container-margin": "24px", "stack-lg": "32px", "section-gap": "48px"}, fontFamily: {"display-lg": ["Plus Jakarta Sans"], "label-md": ["Montserrat"], "headline-md": ["Plus Jakarta Sans"], caption: ["Montserrat"], "headline-lg": ["Plus Jakarta Sans"], "body-lg": ["Montserrat"], "body-md": ["Montserrat"], "headline-lg-mobile": ["Plus Jakarta Sans"], headline: ["Plus Jakarta Sans"], display: ["Plus Jakarta Sans"], body: ["Montserrat"], label: ["Montserrat"]}, fontSize: {"display-lg": ["48px", {lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800"}], "label-md": ["14px", {lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "600"}], "headline-md": ["24px", {lineHeight: "1.3", fontWeight: "700"}], caption: ["12px", {lineHeight: "1.4", fontWeight: "500"}], "headline-lg": ["32px", {lineHeight: "1.2", fontWeight: "700"}], "body-lg": ["18px", {lineHeight: "1.6", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "1.5", fontWeight: "400"}], "headline-lg-mobile": ["28px", {lineHeight: "1.2", fontWeight: "700"}]}}}};</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sunset-gradient {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ae2f34 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .masonry-item:nth-child(even) {
+            margin-top: 32px;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        body {
+            background-color: #fcf9f8;
+            overflow-x: hidden;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-2xl border-b border-white/20 shadow-sm flex justify-between items-center px-container-margin h-16">
+<div class="flex items-center gap-2 active:scale-95 transition-transform">
+<div class="w-8 h-8 rounded-full bg-primary-container overflow-hidden">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiagQe1BWJ_XWHXu3aWdzuyj5s2mxz3bfsHLAdfvx5uIUUn6rKJeuWkKpOTw1Fc5kEIBkDR1yzT2wgouUw3eVBFwrgiphozAfBXrTYBE99yEHwlfCLs3eef5x_Plsw48ts0Vl6xIj2VmiGjDzMPNQETN8gB5BendlT4j88dL7DuFhu7BTKDRlGvllI-cR1GpJP790VcK8xlisEG41eiB9bdyeKLAKSX5E5Fr7etGl576oy_bvEwpkC07s5GGp0-S0FfzH5k1GTBCE"/>
+</div>
+</div>
+<h1 class="font-display-lg text-headline-lg-mobile text-primary dark:text-primary-fixed tracking-tighter">SOLE</h1>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<main class="pt-20 pb-32 px-container-margin min-h-screen relative overflow-hidden">
+<!-- Background Glows -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10"></div>
+<div class="absolute bottom-1/4 left-0 w-80 h-80 bg-tertiary/10 rounded-full blur-3xl -z-10"></div>
+<!-- Wrapped Reveal Header -->
+<div class="mb-stack-lg text-center">
+<span class="font-label-md text-label-md text-primary uppercase tracking-widest bg-primary/10 px-4 py-1 rounded-full mb-stack-sm inline-block">2024 Travel Wrapped</span>
+<h2 class="font-display-lg text-headline-lg-mobile text-on-surface mb-2">You're a Born Traveler.</h2>
+</div>
+<!-- Hero Collage Card -->
+<div class="relative w-full mb-stack-lg rounded-xl overflow-hidden shadow-lg aspect-[4/5] md:aspect-video group">
+<div class="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-2 p-2 bg-surface-container">
+<div class="rounded-lg overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="A high-angle, aesthetically pleasing photo of diverse street food dishes on a rustic wooden table in a sunlit urban alleyway. The scene captures vibrant colors of fresh ingredients, steam rising from hot noodles, and a warm, inviting glow of golden-hour lighting. The style is modern, cinematic, and emphasizes a high-contrast, Gen Z lifestyle aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALclt0lYUwwjbkwH8jD8raP9MbnX6JC31YsO5kH_pUbgnNfYMEPJo1bOjiN1YwfPCpr6R2C1RXDG41-VAdTJdVy-MwnUCLZAFS6rPaK56g52s88B9iSZoLQLV38rNO6bJQBhAr89n97RjhcBOKw1fKbw1Zb9fAvS6QtjA9WEQnNv1z0W_-gVbRjBs4vzP2srByk9RXqCsZVAAXeWEk2yCbe41gfUhbnjOVH94uGbmotpTp0AXCGz2sxIeIXVdQ4izVtGeQ2auotfA"/>
+</div>
+<div class="rounded-lg overflow-hidden relative row-span-2">
+<img class="w-full h-full object-cover" data-alt="A stunning wide shot of a modern city bridge with sleek architecture stretching across a river during twilight. The city skyline is illuminated with purple and orange hues from the sunset, reflecting off the water. The atmosphere is vibrant and energetic, capturing the essence of creative urban neighborhoods and architectural discovery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDND56bFMhIceRJFxTh4OxI5k4VGtwkWUrNx1bISx6xHtosfvggeT-DG2QxNd51LJ-nrH2itlIcUMHws9K0SODV2O-oFtOcBHDnI5jNBi9-7Qq3bmglfiYAnyXb9ndsmmf-egFUUy5FgNooU-QD0LqOn-sMlFWGLjn428jCut3t3Xrv5ZMK_4LdQbCtdGJ_X1ffsEuPO4s9esV8_Px5vgWcRDe0OfUhfz90y7U6ms0_Gr1f_iZhpQ3QtblEQ2beZ96mZQfZ-b3jlas"/>
+</div>
+<div class="rounded-lg overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="The interior of a hidden local café with minimalist, creative interior design. Large floor-to-ceiling windows reveal a glimpse of a cobblestone street. Soft, warm lighting illuminates artisan coffee carafes and green plants, creating a serene, deeply aesthetic mood perfect for an urban explorer. The color palette features creamy neutrals with pops of lush green." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdVEUM5aGWn3Xh8xeY9OGBLnq6Yqz5t-QakkiQQeHj1Hh86CsM3So5cVnVPh0OXBCV4uG6eGxAFKxmpgngUGurQgBwsgcI1Xve6WO0N1OOiIqgQmOv8mhbmkftf7qdOT9lQdd-uLiBP6N-k6JgUcxec-0lKMbWaPhtNhvhZ0DU_mHxtR62JNlme2zlYM5LuNVT0Fd_Oi1_8yDzk5eRHeehY5j8olAXcteXAJ8ELffXZNlX2FdFJcvIU1_wjqYW0Tyavuci_7DzBpU"/>
+</div>
+</div>
+<!-- Floating Vibe Card -->
+<div class="absolute inset-0 flex items-center justify-center p-6 bg-black/20">
+<div class="glass-card w-full p-stack-lg rounded-lg shadow-2xl transform transition-transform group-hover:scale-[1.02] duration-500">
+<div class="flex flex-col items-center text-center">
+<div class="w-20 h-20 sunset-gradient rounded-full flex items-center justify-center mb-stack-md shadow-[0_8px_32px_rgba(255,107,107,0.4)] animate-float">
+<span class="material-symbols-outlined text-white text-4xl">restaurant</span>
+</div>
+<h3 class="font-display-lg text-headline-lg text-primary mb-2">Urban Food Explorer</h3>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                            You love authentic food, creative neighborhoods, and discovering hidden local gems.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<!-- DNA Scores Section -->
+<section class="mb-stack-lg space-y-stack-md">
+<div class="flex items-center justify-between px-2">
+<h4 class="font-headline-md text-on-surface">Travel DNA</h4>
+<span class="font-label-md text-primary">Uniquely Yours</span>
+</div>
+<div class="bg-white/50 backdrop-blur-md rounded-lg p-stack-md border border-white/40 shadow-sm space-y-6">
+<!-- Foodie -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<span class="font-label-md text-on-surface-variant">Foodie</span>
+<span class="font-label-md text-primary">92%</span>
+</div>
+<div class="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full sunset-gradient rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<!-- Explorer -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<span class="font-label-md text-on-surface-variant">Explorer</span>
+<span class="font-label-md text-primary">84%</span>
+</div>
+<div class="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full sunset-gradient rounded-full" style="width: 84%"></div>
+</div>
+</div>
+<!-- Culture -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<span class="font-label-md text-on-surface-variant">Culture</span>
+<span class="font-label-md text-primary">76%</span>
+</div>
+<div class="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full sunset-gradient rounded-full" style="width: 76%"></div>
+</div>
+</div>
+<!-- Adventure -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<span class="font-label-md text-on-surface-variant">Adventure</span>
+<span class="font-label-md text-primary">52%</span>
+</div>
+<div class="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full opacity-60" style="width: 52%"></div>
+</div>
+</div>
+<!-- Relaxation -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<span class="font-label-md text-on-surface-variant">Relaxation</span>
+<span class="font-label-md text-primary">34%</span>
+</div>
+<div class="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full opacity-40" style="width: 34%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Vibe Tags -->
+<div class="flex flex-wrap gap-2 mb-section-gap justify-center">
+<span class="bg-primary/10 text-primary font-label-md px-4 py-2 rounded-full border border-primary/20">#StreetFood</span>
+<span class="bg-tertiary/10 text-tertiary font-label-md px-4 py-2 rounded-full border border-tertiary/20">#HiddenCafés</span>
+<span class="bg-secondary/10 text-secondary font-label-md px-4 py-2 rounded-full border border-secondary/20">#CreativeSpaces</span>
+</div>
+<!-- CTA Button -->
+<div class="flex justify-center mb-12">
+<button class="sunset-gradient text-white font-display-lg text-body-lg px-stack-lg py-5 rounded-full shadow-lg active:scale-95 transition-all w-full max-w-sm flex items-center justify-center gap-3">
+                Show Places For Me
+                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-48px)] rounded-full bg-surface/80 dark:bg-surface-container-highest/80 backdrop-blur-2xl border border-white/20 shadow-lg z-50 flex justify-around items-center h-20 px-6">
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 opacity-70 hover:bg-primary/10 rounded-full transition-colors active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-md text-label-md">Discover</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-2 scale-110 transition-all shadow-[0_8px_32px_rgba(255,107,107,0.1)] active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-md text-label-md">My Vibes</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 opacity-70 hover:bg-primary/10 rounded-full transition-colors active:scale-90 duration-200 cursor-pointer">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md text-label-md">Journey</span>
+</div>
+</nav>
+<script>
+        // Micro-interaction for DNA bars on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.sunset-gradient[style]');
+            bars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.transition = 'width 1.5s cubic-bezier(0.22, 1, 0.36, 1)';
+                    bar.style.width = targetWidth;
+                }, 300);
+            });
+        });
+    </script>
+</body></html>

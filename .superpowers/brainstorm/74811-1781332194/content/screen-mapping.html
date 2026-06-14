@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script>tailwind.config = {darkMode:"class",theme:{extend:{colors:{"primary-container":"#ffaba8","on-surface":"#53251b","on-surface-variant":"#885044",primary:"#9d4241","surface-bright":"#fff8f6","surface-container":"#ffe9e5","on-primary":"#fff7f6","surface-container-high":"#ffe2dc","on-secondary":"#f0fbff","surface-container-lowest":"#ffffff","surface-container-highest":"#ffdad3",surface:"#fff8f6",secondary:"#3c6572","on-primary-container":"#702022","surface-dim":"#ffcfc5","on-background":"#53251b","surface-container-low":"#fff0ee","inverse-primary":"#f88885","primary-fixed":"#ffaba8",background:"#fff8f6",outline:"#a86b5e",tertiary:"#2c6771"},borderRadius:{DEFAULT:"1rem",lg:"2rem",xl:"3rem",full:"9999px"},spacing:{"container-margin":"24px","stack-md":"16px","stack-sm":"8px","stack-lg":"32px","section-gap":"48px"},fontFamily:{"display-lg":["Plus Jakarta Sans"],"label-md":["Montserrat"],"headline-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"body-lg":["Montserrat"],"body-md":["Montserrat"]},fontSize:{"display-lg":["48px",{lineHeight:"1.1",letterSpacing:"-0.02em",fontWeight:"800"}],"label-md":["14px",{lineHeight:"1.2",letterSpacing:"0.05em",fontWeight:"600"}],"headline-md":["24px",{lineHeight:"1.3",fontWeight:"700"}],"headline-lg":["32px",{lineHeight:"1.2",fontWeight:"700"}],"headline-lg-mobile":["28px",{lineHeight:"1.2",fontWeight:"700"}],"body-md":["16px",{lineHeight:"1.5",fontWeight:"400"}],"caption":["12px",{lineHeight:"1.4",fontWeight:"500"}]}}}};</script>
+<style>
+  .sunset-gradient { background: linear-gradient(135deg, #ff6b6b 0%, #ae2f34 100%); }
+  .glass-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.3); }
+  body { background-color: #fcf9f8; font-family: 'Montserrat', sans-serif; }
+  @keyframes slideIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  .animate-card { animation: slideIn 0.5s ease-out forwards; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .animate-float { animation: float 4s ease-in-out infinite; }
+</style>
+</head>
+<body class="text-on-surface p-6">
+
+<h2 class="font-display-lg text-headline-lg-mobile text-primary mb-2" style="font-family:'Plus Jakarta Sans',sans-serif">Screen Mapping — Design Language</h2>
+<p class="text-on-surface-variant text-sm mb-8">Mỗi màn dùng component nào từ example</p>
+
+<div class="grid grid-cols-1 gap-8">
+
+  <!-- Screen 0 -->
+  <div class="border-2 border-primary/30 rounded-2xl overflow-hidden">
+    <div class="sunset-gradient px-4 py-2 text-white text-xs font-bold tracking-widest uppercase" style="font-family:'Montserrat',sans-serif">Màn 0 — Khởi đầu (Entry)</div>
+    <div class="p-4 grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-xs text-on-surface-variant mb-2" style="font-family:'Montserrat',sans-serif">Component dùng:</p>
+        <ul class="text-sm space-y-1" style="font-family:'Montserrat',sans-serif">
+          <li>• Centered hero layout</li>
+          <li>• 2 big toggle cards (trong ngày / đi xa) — masonry style từ page2</li>
+          <li>• Input địa điểm (glass-card)</li>
+          <li>• Fixed CTA button sunset-gradient</li>
+          <li>• Ambient mousemove background</li>
+        </ul>
+      </div>
+      <div class="bg-surface-container-low rounded-xl p-3 text-xs space-y-2" style="font-family:'Montserrat',sans-serif">
+        <div class="font-bold text-primary" style="font-family:'Plus Jakarta Sans',sans-serif">SOLE</div>
+        <p class="text-on-surface font-bold text-sm" style="font-family:'Plus Jakarta Sans',sans-serif">Hôm nay bạn muốn đi kiểu nào?</p>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="bg-primary-container rounded-xl p-2 text-center border-2 border-primary text-xs">⏱️<br/><span class="font-bold">Trong ngày</span></div>
+          <div class="bg-surface-container rounded-xl p-2 text-center text-xs">🗺️<br/>Chuyến xa</div>
+        </div>
+        <div class="bg-white/70 rounded-xl p-2 text-on-surface-variant text-xs border border-white/30">📍 Bạn đang ở đâu?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 1-3 -->
+  <div class="border-2 border-primary/30 rounded-2xl overflow-hidden">
+    <div class="sunset-gradient px-4 py-2 text-white text-xs font-bold tracking-widest uppercase" style="font-family:'Montserrat',sans-serif">Màn 1–3 — Quiz (từ page2.html)</div>
+    <div class="p-4 grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-xs text-on-surface-variant mb-2" style="font-family:'Montserrat',sans-serif">Component dùng:</p>
+        <ul class="text-sm space-y-1" style="font-family:'Montserrat',sans-serif">
+          <li>• Fixed progress header (Step X/3 + bar)</li>
+          <li>• Question headline (display-lg font)</li>
+          <li>• <strong>Masonry 2-col grid</strong> — mỗi option là 1 card với ảnh + label</li>
+          <li>• Staggered slideIn animation (0.1s delay mỗi card)</li>
+          <li>• Action bar slide-up khi chọn</li>
+          <li>• Màn 3: rating stars thay card</li>
+        </ul>
+      </div>
+      <div class="bg-surface-container-low rounded-xl p-3 space-y-2" style="font-family:'Montserrat',sans-serif">
+        <div class="flex justify-between text-xs">
+          <span class="text-primary font-bold uppercase tracking-widest" style="font-family:'Montserrat',sans-serif">Discovery</span>
+          <span class="text-on-surface-variant">Step 1/3</span>
+        </div>
+        <div class="h-1.5 bg-surface-container-highest rounded-full"><div class="h-full sunset-gradient rounded-full w-1/3"></div></div>
+        <p class="font-bold text-sm leading-tight" style="font-family:'Plus Jakarta Sans',sans-serif">Bạn bè hay mô tả bạn là người...?</p>
+        <div class="grid grid-cols-2 gap-1.5 text-xs">
+          <div class="animate-card bg-primary-container rounded-lg p-2 border-2 border-primary" style="animation-delay:0.1s">😋 "Biết ăn" hay chọn chỗ ngon</div>
+          <div class="animate-card bg-surface-container rounded-lg p-2 mt-3" style="animation-delay:0.2s">🧭 Rủ đi đâu đó bất ngờ</div>
+          <div class="animate-card bg-surface-container rounded-lg p-2 -mt-2" style="animation-delay:0.3s">📖 Hay kể chuyện lịch sử</div>
+          <div class="animate-card bg-surface-container rounded-lg p-2" style="animation-delay:0.4s">⚡ Đề xuất gì đó crazy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 4 -->
+  <div class="border-2 border-primary/30 rounded-2xl overflow-hidden">
+    <div class="sunset-gradient px-4 py-2 text-white text-xs font-bold tracking-widest uppercase" style="font-family:'Montserrat',sans-serif">Màn 4 — Vibe Result (từ page1.html)</div>
+    <div class="p-4 grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-xs text-on-surface-variant mb-2" style="font-family:'Montserrat',sans-serif">Component dùng:</p>
+        <ul class="text-sm space-y-1" style="font-family:'Montserrat',sans-serif">
+          <li>• "Travel Wrapped" hero label</li>
+          <li>• Floating vibe icon (animate-float)</li>
+          <li>• Glass card overlay giữa màn hình</li>
+          <li>• Travel DNA bars animate on load</li>
+          <li>• Vibe hashtag pills</li>
+          <li>• Sunset-gradient CTA button</li>
+        </ul>
+      </div>
+      <div class="bg-surface-container-low rounded-xl p-3 space-y-2" style="font-family:'Montserrat',sans-serif">
+        <div class="text-center">
+          <span class="text-xs text-primary font-bold uppercase tracking-widest bg-primary/10 px-3 py-0.5 rounded-full" style="font-family:'Montserrat',sans-serif">Your Vibe</span>
+          <p class="font-bold text-sm mt-1" style="font-family:'Plus Jakarta Sans',sans-serif">You're a Born Traveler.</p>
+        </div>
+        <div class="glass-card rounded-xl p-3 text-center">
+          <div class="w-10 h-10 sunset-gradient rounded-full flex items-center justify-center mx-auto mb-1 animate-float text-white text-lg">🗺️</div>
+          <p class="font-bold text-primary" style="font-family:'Plus Jakarta Sans',sans-serif">Explorer</p>
+          <p class="text-xs text-on-surface-variant">"Sống để khám phá"</p>
+        </div>
+        <div class="space-y-1.5 text-xs">
+          <div class="flex items-center gap-2"><span class="w-14">Explorer</span><div class="flex-1 h-2 bg-surface-container-highest rounded-full"><div class="h-full sunset-gradient rounded-full" style="width:88%"></div></div><span class="w-8 text-right text-primary">88%</span></div>
+          <div class="flex items-center gap-2"><span class="w-14">Foodie</span><div class="flex-1 h-2 bg-surface-container-highest rounded-full"><div class="h-full sunset-gradient rounded-full opacity-70" style="width:60%"></div></div><span class="w-8 text-right text-primary">60%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 5 -->
+  <div class="border-2 border-primary/30 rounded-2xl overflow-hidden">
+    <div class="sunset-gradient px-4 py-2 text-white text-xs font-bold tracking-widest uppercase" style="font-family:'Montserrat',sans-serif">Màn 5 — Địa điểm & Lịch trình (new)</div>
+    <div class="p-4 grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-xs text-on-surface-variant mb-2" style="font-family:'Montserrat',sans-serif">Component dùng:</p>
+        <ul class="text-sm space-y-1" style="font-family:'Montserrat',sans-serif">
+          <li>• Loading skeleton (agent đang chạy)</li>
+          <li>• Timeline dọc với dot connector</li>
+          <li>• Mỗi địa điểm: card ảnh + tên + giờ + distance</li>
+          <li>• Masonry layout cho list địa điểm</li>
+          <li>• Glass-card cho distance badge</li>
+          <li>• Scroll bottom CTA: "Lên kế hoạch lại"</li>
+        </ul>
+      </div>
+      <div class="bg-surface-container-low rounded-xl p-3 space-y-2" style="font-family:'Montserrat',sans-serif">
+        <p class="text-xs text-on-surface-variant">📍 Quận 1 · ⏱️ Trong ngày</p>
+        <div class="space-y-2">
+          <div class="flex gap-2 items-start animate-card" style="animation-delay:0.1s">
+            <div class="flex flex-col items-center">
+              <div class="w-3 h-3 sunset-gradient rounded-full mt-0.5"></div>
+              <div class="w-0.5 h-8 bg-primary/20"></div>
+            </div>
+            <div class="bg-white/70 rounded-lg p-2 text-xs flex-1 border border-white/30">
+              <p class="font-bold" style="font-family:'Plus Jakarta Sans',sans-serif">9:00 — Phố đi bộ Nguyễn Huệ</p>
+              <p class="text-on-surface-variant">~0.5km · 45 phút</p>
+            </div>
+          </div>
+          <div class="flex gap-2 items-start animate-card" style="animation-delay:0.2s">
+            <div class="flex flex-col items-center">
+              <div class="w-3 h-3 sunset-gradient rounded-full mt-0.5"></div>
+              <div class="w-0.5 h-8 bg-primary/20"></div>
+            </div>
+            <div class="bg-white/70 rounded-lg p-2 text-xs flex-1 border border-white/30">
+              <p class="font-bold" style="font-family:'Plus Jakarta Sans',sans-serif">10:30 — Bảo tàng Mỹ Thuật</p>
+              <p class="text-on-surface-variant">~1.2km · 1 tiếng</p>
+            </div>
+          </div>
+          <div class="flex gap-2 items-start animate-card" style="animation-delay:0.3s">
+            <div class="flex flex-col items-center">
+              <div class="w-3 h-3 sunset-gradient rounded-full mt-0.5"></div>
+            </div>
+            <div class="bg-white/70 rounded-lg p-2 text-xs flex-1 border border-white/30">
+              <p class="font-bold" style="font-family:'Plus Jakarta Sans',sans-serif">12:00 — Cơm Niêu Sài Gòn</p>
+              <p class="text-on-surface-variant">~0.8km · Ăn trưa</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mt-8 p-4 bg-primary/5 rounded-2xl border border-primary/20 text-sm space-y-1" style="font-family:'Montserrat',sans-serif">
+  <p class="font-bold text-primary" style="font-family:'Plus Jakarta Sans',sans-serif">Design tokens nhất quán xuyên suốt:</p>
+  <p>• Font: Plus Jakarta Sans (headings) + Montserrat (body) — giống hệt example</p>
+  <p>• Color: sunset-gradient (#ff6b6b→#ae2f34) cho CTA, progress bar, active states</p>
+  <p>• Cards: glass-card + surface-container-low + rounded-lg — giống hệt example</p>
+  <p>• Animation: slideIn staggered (0.1s/card) + float (vibe icon) — copy từ example</p>
+</div>
+
+</body>
+</html>

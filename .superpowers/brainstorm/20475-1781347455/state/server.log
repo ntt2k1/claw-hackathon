@@ -1,0 +1,8 @@
+{"type":"server-started","port":55617,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:55617","screen_dir":"/Users/lap14972/Source/github.com/ntt2k1/claw-hackathon/.superpowers/brainstorm/20475-1781347455/content","state_dir":"/Users/lap14972/Source/github.com/ntt2k1/claw-hackathon/.superpowers/brainstorm/20475-1781347455/state"}
+{"type":"screen-added","file":"/Users/lap14972/Source/github.com/ntt2k1/claw-hackathon/.superpowers/brainstorm/20475-1781347455/content/nav-layout.html"}
+{"source":"user-event","type":"click","text":"🧭\n          Khám phá\n        \n        \n          ✨\n          Your Vibe\n        \n        \n          📍\n          Lịch trình\n        \n      \n    \n    \n      B — 3 tab\n      Explore + Your Vibe + Itinerary riêng. Có thể xem lại lịch trình cũ mà không cần gen lại.","choice":"b","id":null,"timestamp":1781347502080}
+{"type":"screen-added","file":"/Users/lap14972/Source/github.com/ntt2k1/claw-hackathon/.superpowers/brainstorm/20475-1781347455/content/vibe-screen-layout.html"}
+{"type":"screen-added","file":"/Users/lap14972/Source/github.com/ntt2k1/claw-hackathon/.superpowers/brainstorm/20475-1781347455/content/waiting-1.html"}
+{"type":"screen-added","file":"/Users/lap14972/Source/github.com/ntt2k1/claw-hackathon/.superpowers/brainstorm/20475-1781347455/content/image-source.html"}
+{"type":"screen-added","file":"/Users/lap14972/Source/github.com/ntt2k1/claw-hackathon/.superpowers/brainstorm/20475-1781347455/content/rating-mechanism.html"}
+{"type":"server-stopped","reason":"idle timeout"}

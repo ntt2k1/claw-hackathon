@@ -33,7 +33,7 @@ function useUnsplash(keyword) {
   return photos
 }
 
-export default function YourVibeScreen({ vibeResult }) {
+export default function YourVibeScreen({ vibeResult, user, onLogout }) {
   const [ratings, setRatings] = useState([])
 
   useEffect(() => {
@@ -142,6 +142,21 @@ export default function YourVibeScreen({ vibeResult }) {
               ))}
             </div>
           )}
+        </section>
+
+        {/* Account */}
+        <section className="mb-6">
+          {user && (
+            <p className="font-label text-caption text-on-surface-variant text-center mb-3">
+              {user.email}
+            </p>
+          )}
+          <button
+            onClick={onLogout}
+            className="w-full py-3 rounded-full border border-outline-variant text-on-surface-variant font-label text-label-md hover:border-red-500/50 hover:text-red-400 active:scale-95 transition-all"
+          >
+            Đăng xuất
+          </button>
         </section>
       </main>
     </div>

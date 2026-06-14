@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 import os
 
 from database import init_db
@@ -17,6 +17,10 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(auth_router)
 app.include_router(recommendations_router)
+
+@app.get("/health")
+async def health():
+    return JSONResponse({"status": "ok"})
 
 # Serve React build — must be LAST to not shadow API routes
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")

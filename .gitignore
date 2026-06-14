@@ -9,3 +9,5 @@ backend/data/
 .env
 *.egg-info/
 .DS_Store
+.greennode.json
+.agentbase/

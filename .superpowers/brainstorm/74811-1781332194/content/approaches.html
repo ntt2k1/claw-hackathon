@@ -1,0 +1,46 @@
+<h2>3 Hướng Kiến Trúc</h2>
+<p class="subtitle">Chọn cách xây dựng hệ thống — từ đơn giản đến phức tạp</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Rule-based scoring + LLM gợi ý</h3>
+      <p>Frontend React tự tính điểm (JS thuần), chỉ gọi LLM 1 lần ở màn 5 để sinh địa điểm + lịch trình. Backend FastAPI tối giản.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Dev nhanh, ít lỗi</li><li>Chi phí token thấp</li><li>Dễ debug scoring</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>LangChain chỉ dùng như wrapper đơn giản</li><li>Ít "agent" thực sự</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>LangChain Agent với Tools ⭐ Recommended</h3>
+      <p>Backend LangChain Agent có 3 tools: <code>score_personality(answers)</code> → <code>search_locations(vibe, location, trip_type)</code> → <code>build_itinerary(places, hours/days)</code>. Frontend gọi 1 endpoint duy nhất, agent tự điều phối.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Đúng tinh thần "AI Agent"</li><li>Flexible — agent tự quyết cần gọi tool nào</li><li>Dễ mở rộng thêm tool sau</li><li>Phù hợp demo hackathon</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Phức tạp hơn A một chút</li><li>Tốn token hơn</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>LangChain Agent + Streaming + Memory</h3>
+      <p>Giống B nhưng thêm streaming response (typewriter effect ở màn 5) và ConversationMemory để user có thể chat tiếp sau khi xem kết quả ("đổi sang chỗ gần hơn", "thêm option ăn chay").</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>UX đẹp nhất (typewriter)</li><li>Interactive sau kết quả</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Dev phức tạp hơn đáng kể</li><li>Rủi ro cao hơn cho hackathon</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:16px;font-size:12px;color:var(--text-muted);padding:10px;border-left:3px solid #8b5cf6">
+  <strong>Gợi ý B</strong> — đủ "agent" để thuyết phục giám khảo, vừa sức hoàn thành trong hackathon, dễ demo. Nếu còn thời gian có thể bổ sung streaming từ B lên C.
+</div>

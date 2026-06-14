@@ -1,0 +1,109 @@
+<h2>Your Vibe screen — layout nào phù hợp?</h2>
+<p class="subtitle">Màn này mix thông tin personality từ quiz + feedback từ các địa điểm đã xem. Bạn thích cách trình bày nào?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#ff6b6b22,#ae2f3422);padding:16px;border-radius:8px;min-height:220px;">
+      <!-- Card style: hero vibe + stats below -->
+      <div style="text-align:center;margin-bottom:12px;">
+        <div style="font-size:48px;margin-bottom:4px;">🍜</div>
+        <div style="font-weight:700;font-size:18px;color:#ae2f34">Foodie Explorer</div>
+        <div style="font-size:12px;color:#666;margin-top:4px">"Bạn sống để thưởng thức — mỗi bữa ăn là một trải nghiệm"</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+        <div style="background:white;border-radius:8px;padding:8px;text-align:center;">
+          <div style="font-size:20px">🍜</div>
+          <div style="font-size:11px;font-weight:600;color:#ae2f34">Ăn uống</div>
+          <div style="font-size:10px;color:#888">78%</div>
+        </div>
+        <div style="background:white;border-radius:8px;padding:8px;text-align:center;">
+          <div style="font-size:20px">🗺️</div>
+          <div style="font-size:11px;font-weight:600;color:#ae2f34">Khám phá</div>
+          <div style="font-size:10px;color:#888">62%</div>
+        </div>
+      </div>
+      <div style="background:white;border-radius:8px;padding:10px;margin-top:8px;font-size:11px;color:#555">
+        📸 <strong>Ảnh gợi ý:</strong> Street food Hội An, chợ đêm, quán cà phê đặc trưng...
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Hero + Stats</h3>
+      <p>Vibe lớn ở trên, điểm số các nhóm dạng grid, ảnh gợi ý bên dưới. Clean, dễ scan.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#ff6b6b22,#ae2f3422);padding:16px;border-radius:8px;min-height:220px;">
+      <!-- Story style: scroll through personality insights -->
+      <div style="background:white;border-radius:10px;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#ff6b6b,#ae2f34);padding:12px;color:white;text-align:center;">
+          <div style="font-size:32px">🍜</div>
+          <div style="font-weight:700;font-size:15px">Foodie Explorer</div>
+        </div>
+        <div style="padding:10px;">
+          <div style="font-size:11px;color:#555;border-left:3px solid #ae2f34;padding-left:8px;margin-bottom:8px">
+            "Bạn thích khám phá qua vị giác — mỗi chuyến đi là một thực đơn mới"
+          </div>
+          <div style="font-size:11px;font-weight:600;color:#ae2f34;margin-bottom:4px">📊 Breakdown vibe của bạn</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+            <span style="font-size:10px;width:60px;color:#555">🍜 Foodie</span>
+            <div style="flex:1;background:#f0f0f0;border-radius:4px;height:6px">
+              <div style="width:78%;background:#ae2f34;height:6px;border-radius:4px"></div>
+            </div>
+            <span style="font-size:10px;color:#888">78%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+            <span style="font-size:10px;width:60px;color:#555">🗺️ Explorer</span>
+            <div style="flex:1;background:#f0f0f0;border-radius:4px;height:6px">
+              <div style="width:62%;background:#ff6b6b;height:6px;border-radius:4px"></div>
+            </div>
+            <span style="font-size:10px;color:#888">62%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:10px;width:60px;color:#555">🌿 Relax</span>
+            <div style="flex:1;background:#f0f0f0;border-radius:4px;height:6px">
+              <div style="width:30%;background:#ffaa88;height:6px;border-radius:4px"></div>
+            </div>
+            <span style="font-size:10px;color:#888">30%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Story + Progress Bars</h3>
+      <p>Header gradient đậm, quote mô tả tính cách, progress bar cho cả 5 vibe. Emotional hơn.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#ff6b6b22,#ae2f3422);padding:16px;border-radius:8px;min-height:220px;">
+      <!-- Magazine style: full bleed image + overlay text + rating cards -->
+      <div style="background:white;border-radius:10px;overflow:hidden;">
+        <div style="background:linear-gradient(180deg,#ff6b6b88 0%,#ae2f34cc 100%),url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=120&fit=crop') center/cover;padding:24px 12px 12px;color:white;text-align:center;min-height:80px;display:flex;flex-direction:column;justify-content:flex-end">
+          <div style="font-size:28px;margin-bottom:2px">🍜</div>
+          <div style="font-weight:700;font-size:14px">Foodie Explorer</div>
+        </div>
+        <div style="padding:10px;">
+          <div style="font-size:10px;color:#666;margin-bottom:8px;font-style:italic">"Sống để thưởng thức — mỗi bữa ăn là một trải nghiệm"</div>
+          <div style="font-size:11px;font-weight:600;color:#ae2f34;margin-bottom:6px">🏆 Địa điểm phù hợp với bạn nhất</div>
+          <div style="display:flex;gap:6px;overflow-x:auto;">
+            <div style="min-width:80px;background:#fff8f5;border:1px solid #f0d0c0;border-radius:8px;padding:6px;text-align:center;font-size:10px">
+              <div>🍜</div><div style="color:#ae2f34;font-weight:600">Chợ đêm</div><div style="color:#888">★ 4.8</div>
+            </div>
+            <div style="min-width:80px;background:#fff8f5;border:1px solid #f0d0c0;border-radius:8px;padding:6px;text-align:center;font-size:10px">
+              <div>☕</div><div style="color:#ae2f34;font-weight:600">Phố cổ</div><div style="color:#888">★ 4.6</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Magazine với ảnh thật</h3>
+      <p>Full bleed photo làm hero, địa điểm gợi ý dạng card ngang có rating. Visual nhất, emotional nhất.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px">Phần "đánh giá mức độ hài lòng" sẽ cho phép user rate từng địa điểm đã xem trong Itinerary — dữ liệu đó sẽ hiện trong Your Vibe để tinh chỉnh profile.</p>

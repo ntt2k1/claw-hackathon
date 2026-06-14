@@ -1,0 +1,54 @@
+<h2>Hình ảnh trong Your Vibe lấy từ đâu?</h2>
+<p class="subtitle">Phần ảnh gợi ý dưới grid stats — cần quyết định nguồn ảnh để thiết kế đúng UX.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff8f5;padding:16px;border-radius:8px;min-height:160px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="border-radius:8px;overflow:hidden;height:80px;background:linear-gradient(135deg,#ff6b6b,#ae2f34);display:flex;align-items:center;justify-content:center;font-size:28px">🍜</div>
+        <div style="border-radius:8px;overflow:hidden;height:80px;background:linear-gradient(135deg,#ffaa88,#ff6b6b);display:flex;align-items:center;justify-content:center;font-size:28px">☕</div>
+        <div style="border-radius:8px;overflow:hidden;height:80px;background:linear-gradient(135deg,#ae2f34,#7a1f22);display:flex;align-items:center;justify-content:center;font-size:28px">🏔️</div>
+        <div style="border-radius:8px;overflow:hidden;height:80px;background:linear-gradient(135deg,#ff8866,#ae2f34);display:flex;align-items:center;justify-content:center;font-size:28px">🌅</div>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">Gradient tiles với emoji — không cần API bên ngoài</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Emoji + Gradient tiles</h3>
+      <p>Mỗi vibe category có màu gradient + emoji đặc trưng. Không cần ảnh thật, luôn load nhanh, nhất quán trên mọi thiết bị.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff8f5;padding:16px;border-radius:8px;min-height:160px;">
+      <div style="display:flex;gap:8px;overflow-x:auto;">
+        <div style="min-width:100px;border-radius:8px;overflow:hidden;height:80px;background:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200&h=100&fit=crop') center/cover;flex-shrink:0"></div>
+        <div style="min-width:100px;border-radius:8px;overflow:hidden;height:80px;background:url('https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=200&h=100&fit=crop') center/cover;flex-shrink:0"></div>
+        <div style="min-width:100px;border-radius:8px;overflow:hidden;height:80px;background:url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=200&h=100&fit=crop') center/cover;flex-shrink:0"></div>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">Ảnh thật từ Unsplash — cần internet, rất emotional</div>
+    </div>
+    <div class="card-body">
+      <h3>B — Unsplash API (ảnh thật)</h3>
+      <p>Gọi Unsplash API với keyword theo vibe (ví dụ: "street food vietnam", "mountain hiking"). Rất visual, nhưng cần API key và phụ thuộc mạng.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff8f5;padding:16px;border-radius:8px;min-height:160px;">
+      <div style="display:flex;gap:8px;overflow-x:auto;">
+        <div style="min-width:100px;border-radius:8px;height:80px;background:linear-gradient(135deg,#ff6b6b22,#ae2f3422);border:2px dashed #ae2f3466;display:flex;align-items:center;justify-content:center;font-size:11px;color:#ae2f34;text-align:center;padding:4px;flex-shrink:0">Ảnh AI gen<br/>theo vibe</div>
+        <div style="min-width:100px;border-radius:8px;height:80px;background:linear-gradient(135deg,#ff6b6b22,#ae2f3422);border:2px dashed #ae2f3466;display:flex;align-items:center;justify-content:center;font-size:11px;color:#ae2f34;text-align:center;padding:4px;flex-shrink:0">Lưu cache<br/>per user</div>
+        <div style="min-width:100px;border-radius:8px;height:80px;background:linear-gradient(135deg,#ff6b6b22,#ae2f3422);border:2px dashed #ae2f3466;display:flex;align-items:center;justify-content:center;font-size:11px;color:#ae2f34;text-align:center;padding:4px;flex-shrink:0">Cập nhật<br/>theo rating</div>
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">AI generate ảnh theo profile — phức tạp nhất, độc đáo nhất</div>
+    </div>
+    <div class="card-body">
+      <h3>C — AI-generated images</h3>
+      <p>Dùng DALL-E / Stable Diffusion gen ảnh unique theo vibe profile. Cực kỳ personalized nhưng chậm, tốn chi phí, cần infra thêm.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px">Tip: Có thể kết hợp A + B — dùng gradient tiles làm fallback, load Unsplash khi có mạng.</p>

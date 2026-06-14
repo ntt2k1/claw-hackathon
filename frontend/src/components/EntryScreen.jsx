@@ -10,7 +10,7 @@ const PERSONA_ICONS = {
   "Đa Tần Số": "✨",
 }
 
-export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz }) {
+export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz, onLogout }) {
   const [tripType, setTripType] = useState('inday')
   const [location, setLocation] = useState('')
   const [duration, setDuration] = useState(8)
@@ -32,9 +32,18 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz }) 
       <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-outline-variant flex justify-between items-center px-container-margin h-16 left-0">
         <div className="w-8" />
         <h1 className="font-display text-headline-lg-mobile text-primary tracking-tighter">SOLE</h1>
-        {user && (
-          <p className="font-label text-caption text-on-surface-variant truncate max-w-[120px]">{user.email}</p>
-        )}
+        {user ? (
+          <div className="flex items-center gap-2">
+            <p className="font-label text-caption text-on-surface-variant truncate max-w-[100px]">{user.email}</p>
+            <button
+              onClick={onLogout}
+              className="font-label text-caption text-on-surface-variant/60 hover:text-red-400 active:scale-95 transition-all px-1"
+              title="Đăng xuất"
+            >
+              ✕
+            </button>
+          </div>
+        ) : <div className="w-8" />}
       </header>
 
       <div className="mb-stack-lg mt-4">
@@ -112,7 +121,7 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz }) 
         {error && <p className="text-red-400 font-label text-caption mt-1">{error}</p>}
       </div>
 
-      <div className="fixed bottom-0 left-0 w-full px-container-margin pb-10 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
+      <div className="fixed bottom-16 left-0 w-full px-container-margin pb-4 pt-8 bg-gradient-to-t from-background via-background/95 to-transparent">
         <button
           onClick={handleContinue}
           className="neon-gradient text-on-primary w-full py-4 rounded-full font-label text-label-md uppercase tracking-widest shadow-neon-green active:scale-95 transition-transform flex items-center justify-center gap-2"

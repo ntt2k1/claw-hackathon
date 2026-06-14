@@ -1,0 +1,50 @@
+<h2>Bottom Nav — nên có mấy tab?</h2>
+<p class="subtitle">App hiện tại có: Entry → Quiz → Vibe Result → Itinerary. Thêm nav bar sẽ cho phép switch giữa các màn chính.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff8f5;padding:16px;border-radius:8px;">
+      <div style="display:flex;justify-content:space-around;align-items:center;padding:12px 0;border-top:2px solid #ae2f34;background:#fff;border-radius:0 0 12px 12px;margin-top:8px;">
+        <div style="text-align:center;color:#ae2f34;">
+          <div style="font-size:22px">🧭</div>
+          <div style="font-size:10px;font-weight:600;color:#ae2f34">Khám phá</div>
+        </div>
+        <div style="text-align:center;color:#999;">
+          <div style="font-size:22px">✨</div>
+          <div style="font-size:10px;color:#999">Your Vibe</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 2 tab</h3>
+      <p>Explore (home/quiz/itinerary) + Your Vibe. Đơn giản, focus vào tính năng chính.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff8f5;padding:16px;border-radius:8px;">
+      <div style="display:flex;justify-content:space-around;align-items:center;padding:12px 0;border-top:2px solid #ae2f34;background:#fff;border-radius:0 0 12px 12px;margin-top:8px;">
+        <div style="text-align:center;color:#ae2f34;">
+          <div style="font-size:22px">🧭</div>
+          <div style="font-size:10px;font-weight:600;color:#ae2f34">Khám phá</div>
+        </div>
+        <div style="text-align:center;color:#999;">
+          <div style="font-size:22px">✨</div>
+          <div style="font-size:10px;color:#999">Your Vibe</div>
+        </div>
+        <div style="text-align:center;color:#999;">
+          <div style="font-size:22px">📍</div>
+          <div style="font-size:10px;color:#999">Lịch trình</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 3 tab</h3>
+      <p>Explore + Your Vibe + Itinerary riêng. Có thể xem lại lịch trình cũ mà không cần gen lại.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px">Nav bar chỉ hiện sau khi user đã đăng nhập. Trong quiz flow sẽ ẩn nav để không distract.</p>

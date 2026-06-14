@@ -185,7 +185,7 @@ function SkeletonItinerary() {
           <span className="font-label text-label-md text-on-primary tabular-nums">{timeStr}</span>
         </div>
         <p className="font-label text-caption text-on-surface-variant mt-3">
-          LLM đang xử lý — thường mất 15–30 giây
+          LLM đang xử lý — thường mất 3-5 phút
         </p>
       </div>
 
