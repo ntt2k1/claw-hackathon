@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api.js'
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts'
 
 const PERSONA_META = {
   "Kẻ Khám Phá Bản Địa": { icon: "🔍", keyword: "hidden alley vietnam" },
@@ -33,7 +34,7 @@ function useUnsplash(keyword) {
   return photos
 }
 
-export default function YourVibeScreen({ vibeResult, user, onLogout }) {
+export default function YourVibeScreen({ vibeResult, user, onLogout, onRetakeQuiz }) {
   const [ratings, setRatings] = useState([])
 
   useEffect(() => {
@@ -69,6 +70,11 @@ export default function YourVibeScreen({ vibeResult, user, onLogout }) {
   const scores = vibeResult.axes || {}
   const maxScore = Math.max(...Object.values(scores), 1)
   const scoreEntries = Object.entries(scores).sort((a, b) => b[1] - a[1])
+  const radarData = Object.entries(scores).map(([axis, value]) => ({
+    axis,
+    value,
+    fullMark: 100,
+  }))
 
   return (
     <div className="min-h-screen bg-background pb-24 overflow-y-auto">
@@ -85,25 +91,38 @@ export default function YourVibeScreen({ vibeResult, user, onLogout }) {
           <p className="font-body text-body-md text-on-surface-variant italic">"{vibeResult.tagline}"</p>
         </div>
 
-        {/* Score grid */}
-        <section className="mb-6">
-          <h3 className="font-label text-label-md text-on-surface-variant uppercase tracking-widest mb-3">Điểm vibe của bạn</h3>
-          <div className="grid grid-cols-2 gap-3">
-            {scoreEntries.map(([vibe, score]) => {
-              const pct = Math.round((score / maxScore) * 100)
-              return (
-                <div key={vibe} className="bg-surface border border-outline-variant rounded-xl p-4 text-center">
-                  <div className="text-2xl mb-1">{AXIS_ICONS[vibe] || '🌟'}</div>
-                  <div className="font-label text-label-md text-primary font-semibold">{AXIS_ICONS[vibe]} {vibe}</div>
-                  <div className="mt-2 h-1.5 bg-surface-high rounded-full overflow-hidden">
-                    <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${pct}%` }} />
-                  </div>
-                  <div className="font-label text-caption text-on-surface-variant mt-1">{pct}%</div>
-                </div>
-              )
-            })}
+        {/* Radar Chart */}
+        <section className="mb-4">
+          <h3 className="font-label text-label-md text-on-surface-variant uppercase tracking-widest mb-3">Travel DNA</h3>
+          <div className="bg-surface border border-outline-variant rounded-xl p-4">
+            <ResponsiveContainer width="100%" height={300}>
+              <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
+                <PolarGrid stroke="#514255" />
+                <PolarAngleAxis
+                  dataKey="axis"
+                  tick={{ fill: '#888888', fontSize: 10, fontFamily: 'Montserrat' }}
+                />
+                <Radar
+                  dataKey="value"
+                  stroke="#00FFA3"
+                  fill="#00FFA3"
+                  fillOpacity={0.25}
+                  strokeWidth={2}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
           </div>
         </section>
+
+        {/* Đổi tần số */}
+        <div className="mb-6">
+          <button
+            onClick={onRetakeQuiz}
+            className="w-full py-3 rounded-full border-2 border-cyber-purple text-cyber-purple font-label text-label-md uppercase tracking-widest active:scale-95 transition-all flex items-center justify-center gap-2"
+          >
+            ⚡ Đổi tần số
+          </button>
+        </div>
 
         {/* Unsplash photos */}
         {photos.length > 0 && (
