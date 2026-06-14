@@ -1,7 +1,7 @@
 const TABS = [
+  { id: 'home',    icon: '🏠', label: 'Trang chủ' },
   { id: 'explore', icon: '🧭', label: 'Khám phá' },
-  { id: 'vibe',    icon: '✨', label: 'Your Vibe' },
-  { id: 'itinerary', icon: '📍', label: 'Lịch trình' },
+  { id: 'dna',     icon: '🧬', label: 'DNA' },
 ]
 
 export default function BottomNav({ activeTab, onTabChange }) {
