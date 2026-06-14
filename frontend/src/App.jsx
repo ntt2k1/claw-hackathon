@@ -9,6 +9,7 @@ import { calculateScores } from './utils/scoring.js'
 import { QUESTIONS } from './data/questions.js'
 import BottomNav from './components/BottomNav.jsx'
 import YourVibeScreen from './components/YourVibeScreen.jsx'
+import HomeScreen from './components/HomeScreen.jsx'
 
 export default function App() {
   const [screen, setScreen] = useState('AUTH')
@@ -21,7 +22,7 @@ export default function App() {
   const [vibeResult, setVibeResult] = useState(null)
   const [recommendations, setRecommendations] = useState(null)
   const [loadingRec, setLoadingRec] = useState(false)
-  const [activeTab, setActiveTab] = useState('explore')
+  const [activeTab, setActiveTab] = useState('home')
 
   useEffect(() => {
     if (!api.hasToken()) return
@@ -41,7 +42,7 @@ export default function App() {
         })
           } catch (_) {}
         }
-        setScreen('ENTRY')
+        setScreen('HOME')
       })
       .catch(() => {
         api.clearToken()
@@ -50,7 +51,7 @@ export default function App() {
 
   function handleAuthSuccess(userData) {
     setUser(userData)
-    setScreen('ENTRY')
+    setScreen('HOME')
   }
 
   function handleEntryDone(entryData) {
@@ -136,8 +137,8 @@ export default function App() {
   function handleRestart() {
     setQuizAnswers([])
     setRecommendations(null)
-    setActiveTab('explore')
-    setScreen('ENTRY')
+    setActiveTab('home')
+    setScreen('HOME')
   }
 
   function handleLogout() {
@@ -159,12 +160,12 @@ export default function App() {
 
   function handleTabChange(tab) {
     setActiveTab(tab)
-    if (tab === 'explore') {
-      setScreen(recommendations ? 'VIBE' : 'ENTRY')
-    } else if (tab === 'vibe') {
+    if (tab === 'home') {
+      setScreen('HOME')
+    } else if (tab === 'explore') {
+      setScreen('ENTRY')
+    } else if (tab === 'dna') {
       setScreen('YOUR_VIBE')
-    } else if (tab === 'itinerary') {
-      setScreen('ITINERARY')
     }
   }
 
@@ -175,12 +176,20 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background">
       {screen === 'AUTH'       && <AuthScreen onSuccess={handleAuthSuccess} />}
+      {screen === 'HOME' && (
+        <HomeScreen
+          vibeResult={vibeResult}
+          user={user}
+          onStartQuiz={() => setScreen('QUIZ1')}
+          onGoExplore={() => { setScreen('ENTRY'); setActiveTab('explore') }}
+        />
+      )}
       {screen === 'ENTRY'      && <EntryScreen user={user} vibeResult={vibeResult} onDone={handleEntryDone} onRetakeQuiz={handleRetakeQuiz} onLogout={handleLogout} />}
       {screen === 'QUIZ1'      && <QuizScreen questions={screen1Qs} screenIndex={1} totalScreens={2} onDone={handleQuiz1Done} />}
       {screen === 'QUIZ2'      && <QuizScreen questions={screen2Qs} screenIndex={2} totalScreens={2} onDone={handleQuiz2Done} />}
       {screen === 'VIBE'       && <VibeResult vibeResult={vibeResult} onContinue={handleGetRecommendations} />}
       {screen === 'ITINERARY'  && <Itinerary recommendations={recommendations} loading={loadingRec} tripType={tripType} location={location} onRestart={handleRestart} />}
-      {screen === 'YOUR_VIBE'  && <YourVibeScreen vibeResult={vibeResult} user={user} onLogout={handleLogout} />}
+      {screen === 'YOUR_VIBE'  && <YourVibeScreen vibeResult={vibeResult} user={user} onLogout={handleLogout} onRetakeQuiz={handleRetakeQuiz} />}
       {showNav && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
     </div>
   )
