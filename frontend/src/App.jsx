@@ -3,11 +3,10 @@ import { api } from './api.js'
 import AuthScreen from './components/AuthScreen.jsx'
 import EntryScreen from './components/EntryScreen.jsx'
 import QuizScreen from './components/QuizScreen.jsx'
-import RatingScreen from './components/RatingScreen.jsx'
 import VibeResult from './components/VibeResult.jsx'
 import Itinerary from './components/Itinerary.jsx'
 import { calculateScores } from './utils/scoring.js'
-import { SINGLE_CHOICE_QUESTIONS, RATING_QUESTIONS } from './data/questions.js'
+import { QUESTIONS } from './data/questions.js'
 import BottomNav from './components/BottomNav.jsx'
 import YourVibeScreen from './components/YourVibeScreen.jsx'
 
@@ -18,8 +17,7 @@ export default function App() {
   const [tripType, setTripType] = useState('inday')
   const [duration, setDuration] = useState(8)
   const [location, setLocation] = useState('')
-  const [singleAnswers, setSingleAnswers] = useState({})
-  const [ratingAnswers, setRatingAnswers] = useState({})
+  const [quizAnswers, setQuizAnswers] = useState([])
   const [vibeResult, setVibeResult] = useState(null)
   const [recommendations, setRecommendations] = useState(null)
   const [loadingRec, setLoadingRec] = useState(false)
@@ -33,7 +31,14 @@ export default function App() {
         if (userData.has_vibe) {
           try {
             const profile = await api.getVibe()
-            setVibeResult({ primary: profile.primary_vibe, secondary: profile.secondary_vibe, scores: profile.scores })
+            setVibeResult({
+          primary: profile.primary_vibe,
+          secondary: profile.secondary_vibe,
+          axes: profile.scores || {},
+          persona: profile.persona || profile.primary_vibe,
+          tagline: '',
+          accentColor: '#BD00FF',
+        })
           } catch (_) {}
         }
         setScreen('ENTRY')
@@ -81,26 +86,20 @@ export default function App() {
   }
 
   function handleQuiz1Done(answers) {
-    setSingleAnswers(prev => ({ ...prev, ...answers }))
+    setQuizAnswers(answers)
     setScreen('QUIZ2')
   }
 
-  function handleQuiz2Done(answers) {
-    setSingleAnswers(prev => ({ ...prev, ...answers }))
-    setScreen('QUIZ3')
-  }
-
-  async function handleQuiz3Done(ratings) {
-    setRatingAnswers(ratings)
-    const allSingle = { ...singleAnswers }
-    const result = calculateScores(allSingle, ratings, RATING_QUESTIONS)
+  async function handleQuiz2Done(answers) {
+    const allAnswers = [...quizAnswers, ...answers]
+    const result = calculateScores(allAnswers)
     setVibeResult(result)
-
     try {
       await api.quizComplete({
         primary_vibe: result.primary,
         secondary_vibe: result.secondary,
-        scores: result.scores,
+        scores: result.axes,
+        persona: result.persona,
       })
       setUser(prev => prev ? { ...prev, has_vibe: true } : prev)
     } catch (e) {
@@ -131,16 +130,14 @@ export default function App() {
   }
 
   function handleRestart() {
-    setSingleAnswers({})
-    setRatingAnswers({})
+    setQuizAnswers([])
     setRecommendations(null)
     setActiveTab('explore')
     setScreen('ENTRY')
   }
 
   function handleRetakeQuiz() {
-    setSingleAnswers({})
-    setRatingAnswers({})
+    setQuizAnswers([])
     setVibeResult(null)
     setUser(prev => prev ? { ...prev, has_vibe: false } : prev)
     setScreen('QUIZ1')
@@ -157,17 +154,16 @@ export default function App() {
     }
   }
 
-  const screen1Qs = SINGLE_CHOICE_QUESTIONS.filter(q => q.screen === 1)
-  const screen2Qs = SINGLE_CHOICE_QUESTIONS.filter(q => q.screen === 2)
-  const showNav = !['AUTH', 'QUIZ1', 'QUIZ2', 'QUIZ3'].includes(screen)
+  const screen1Qs = QUESTIONS.slice(0, 5)
+  const screen2Qs = QUESTIONS.slice(5, 10)
+  const showNav = !['AUTH', 'QUIZ1', 'QUIZ2'].includes(screen)
 
   return (
     <div className="min-h-screen bg-background">
       {screen === 'AUTH'       && <AuthScreen onSuccess={handleAuthSuccess} />}
       {screen === 'ENTRY'      && <EntryScreen user={user} vibeResult={vibeResult} onDone={handleEntryDone} onRetakeQuiz={handleRetakeQuiz} />}
-      {screen === 'QUIZ1'      && <QuizScreen questions={screen1Qs} screenIndex={1} totalScreens={3} onDone={handleQuiz1Done} />}
-      {screen === 'QUIZ2'      && <QuizScreen questions={screen2Qs} screenIndex={2} totalScreens={3} onDone={handleQuiz2Done} />}
-      {screen === 'QUIZ3'      && <RatingScreen screenIndex={3} totalScreens={3} onDone={handleQuiz3Done} />}
+      {screen === 'QUIZ1'      && <QuizScreen questions={screen1Qs} screenIndex={1} totalScreens={2} onDone={handleQuiz1Done} />}
+      {screen === 'QUIZ2'      && <QuizScreen questions={screen2Qs} screenIndex={2} totalScreens={2} onDone={handleQuiz2Done} />}
       {screen === 'VIBE'       && <VibeResult vibeResult={vibeResult} onContinue={handleGetRecommendations} />}
       {screen === 'ITINERARY'  && <Itinerary recommendations={recommendations} loading={loadingRec} tripType={tripType} location={location} onRestart={handleRestart} />}
       {screen === 'YOUR_VIBE'  && <YourVibeScreen vibeResult={vibeResult} />}

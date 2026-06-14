@@ -1,6 +1,16 @@
 import { useState } from 'react'
 
-export default function EntryScreen({ user, onDone }) {
+const PERSONA_ICONS = {
+  "Kẻ Khám Phá Bản Địa": "🔍",
+  "Luxury Escapist": "💎",
+  "Vibe Architect": "🎉",
+  "Power Traveler": "🗺️",
+  "Urban Hermit": "🌿",
+  "Adventure Nomad": "⚡",
+  "Đa Tần Số": "✨",
+}
+
+export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz }) {
   const [tripType, setTripType] = useState('inday')
   const [location, setLocation] = useState('')
   const [duration, setDuration] = useState(8)
@@ -34,6 +44,23 @@ export default function EntryScreen({ user, onDone }) {
         <h2 className="font-display text-headline-lg-mobile text-on-surface leading-tight tracking-tight">
           Hôm nay bạn muốn đi kiểu nào?
         </h2>
+
+        {vibeResult && user?.has_vibe && (
+          <div className="flex items-center gap-3 mt-3">
+            <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2">
+              <span className="text-lg">{PERSONA_ICONS[vibeResult.persona] || '✨'}</span>
+              <span className="font-label text-label-md text-primary">
+                {vibeResult.persona || vibeResult.primary}
+              </span>
+            </div>
+            <button
+              onClick={onRetakeQuiz}
+              className="font-label text-caption text-on-surface-variant underline underline-offset-2"
+            >
+              Đổi vibe
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-stack-lg">

@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api.js'
 
-const VIBE_META = {
-  Foodie:    { icon: '🍜', label: 'Foodie Explorer',   tagline: 'Bạn sống để thưởng thức — mỗi bữa ăn là một trải nghiệm', keyword: 'street food vietnam' },
-  Explorer:  { icon: '🗺️', label: 'Explorer',          tagline: 'Mỗi chuyến đi là một trang nhật ký mới với bạn',          keyword: 'mountain hiking vietnam' },
-  Culture:   { icon: '🏛️', label: 'Culture Lover',     tagline: 'Bạn tìm thấy linh hồn của nơi chốn qua lịch sử và nghệ thuật', keyword: 'ancient temple vietnam' },
-  Relax:     { icon: '🌿', label: 'Chill Seeker',      tagline: 'Bạn cần sự tĩnh lặng — mỗi điểm đến là một nơi để thở',  keyword: 'beach sunset vietnam' },
-  Adventure: { icon: '⚡', label: 'Adventure Seeker',  tagline: 'Adrenaline là nhiên liệu của bạn — càng thử thách càng thích', keyword: 'waterfall trekking vietnam' },
+const PERSONA_META = {
+  "Kẻ Khám Phá Bản Địa": { icon: "🔍", keyword: "hidden alley vietnam" },
+  "Luxury Escapist":       { icon: "💎", keyword: "luxury resort vietnam" },
+  "Vibe Architect":        { icon: "🎉", keyword: "rooftop bar vietnam night" },
+  "Power Traveler":        { icon: "🗺️", keyword: "city landmarks vietnam" },
+  "Urban Hermit":          { icon: "🌿", keyword: "hidden gem nature vietnam" },
+  "Adventure Nomad":       { icon: "⚡", keyword: "trekking vietnam" },
+  "Đa Tần Số":             { icon: "✨", keyword: "vietnam travel" },
 }
 
-const SCORE_LABELS = {
-  Foodie: '🍜 Ăn uống',
-  Explorer: '🗺️ Khám phá',
-  Culture: '🏛️ Văn hóa',
-  Relax: '🌿 Nghỉ ngơi',
-  Adventure: '⚡ Phiêu lưu',
+const AXIS_ICONS = {
+  "Ẩm thực": "🍜", "Văn hoá": "🏛️", "Thiên nhiên": "🌿", "Phiêu lưu": "⚡",
+  "Sang chảnh": "💎", "Giao lưu": "🎉", "Tọa độ ngách": "🔍", "Thư giãn": "😌",
+  "Nhiếp ảnh": "📸", "Hiệu quả": "🗺️",
 }
 
 function useUnsplash(keyword) {
@@ -43,10 +43,10 @@ export default function YourVibeScreen({ vibeResult }) {
   }, [])
 
   // Compute meta before hooks (hook must be called unconditionally)
-  const meta = vibeResult
-    ? (VIBE_META[vibeResult.primary] || { icon: '✨', label: vibeResult.primary, tagline: '', keyword: 'vietnam travel' })
-    : { icon: '✨', label: '', tagline: '', keyword: '' }
-  const photos = useUnsplash(meta.keyword)  // called unconditionally — correct
+  const personaMeta = vibeResult
+    ? (PERSONA_META[vibeResult.persona] || { icon: '✨', keyword: 'vietnam travel' })
+    : { icon: '✨', keyword: '' }
+  const photos = useUnsplash(personaMeta.keyword)  // called unconditionally — correct
 
   if (!vibeResult) {
     return (
@@ -66,7 +66,7 @@ export default function YourVibeScreen({ vibeResult }) {
     ratingsByCategory[cat][r.rating === 'like' ? 'like' : 'dislike']++
   }
 
-  const scores = vibeResult.scores || {}
+  const scores = vibeResult.axes || {}
   const maxScore = Math.max(...Object.values(scores), 1)
   const scoreEntries = Object.entries(scores).sort((a, b) => b[1] - a[1])
 
@@ -80,9 +80,9 @@ export default function YourVibeScreen({ vibeResult }) {
       <main className="pt-20 px-5">
         {/* Hero */}
         <div className="mt-4 mb-6 text-center py-8 px-4 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/10">
-          <div className="text-6xl mb-3">{meta.icon}</div>
-          <h2 className="font-display text-2xl text-primary font-bold mb-2">{meta.label}</h2>
-          <p className="font-body text-body-md text-on-surface-variant italic">"{meta.tagline}"</p>
+          <div className="text-6xl mb-3">{personaMeta.icon}</div>
+          <h2 className="font-display text-2xl text-primary font-bold mb-2">{vibeResult.persona}</h2>
+          <p className="font-body text-body-md text-on-surface-variant italic">"{vibeResult.tagline}"</p>
         </div>
 
         {/* Score grid */}
@@ -93,8 +93,8 @@ export default function YourVibeScreen({ vibeResult }) {
               const pct = Math.round((score / maxScore) * 100)
               return (
                 <div key={vibe} className="glass-card rounded-xl p-4 text-center">
-                  <div className="text-2xl mb-1">{VIBE_META[vibe]?.icon || '🌟'}</div>
-                  <div className="font-label text-label-md text-primary font-semibold">{SCORE_LABELS[vibe] || vibe}</div>
+                  <div className="text-2xl mb-1">{AXIS_ICONS[vibe] || '🌟'}</div>
+                  <div className="font-label text-label-md text-primary font-semibold">{AXIS_ICONS[vibe]} {vibe}</div>
                   <div className="mt-2 h-1.5 bg-primary/10 rounded-full overflow-hidden">
                     <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${pct}%` }} />
                   </div>
@@ -133,7 +133,7 @@ export default function YourVibeScreen({ vibeResult }) {
             <div className="space-y-2">
               {Object.entries(ratingsByCategory).map(([cat, counts]) => (
                 <div key={cat} className="glass-card rounded-xl px-4 py-3 flex justify-between items-center">
-                  <span className="font-body text-body-md text-on-surface capitalize">{SCORE_LABELS[cat] || cat}</span>
+                  <span className="font-body text-body-md text-on-surface capitalize">{AXIS_ICONS[cat] || ''} {cat}</span>
                   <div className="flex gap-3 text-sm">
                     {counts.like > 0 && <span>👍 {counts.like}</span>}
                     {counts.dislike > 0 && <span>👎 {counts.dislike}</span>}
