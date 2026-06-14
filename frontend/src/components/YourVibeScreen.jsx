@@ -73,13 +73,13 @@ export default function YourVibeScreen({ vibeResult }) {
   return (
     <div className="min-h-screen bg-background pb-24 overflow-y-auto">
       {/* Header */}
-      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-white/20 shadow-sm flex justify-center items-center h-16">
+      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-outline-variant flex justify-center items-center h-16">
         <h1 className="font-display text-headline-lg-mobile text-primary tracking-tighter">SOLE</h1>
       </header>
 
       <main className="pt-20 px-5">
         {/* Hero */}
-        <div className="mt-4 mb-6 text-center py-8 px-4 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/10">
+        <div className="mt-4 mb-6 text-center py-8 px-4 rounded-2xl bg-surface border border-primary/20">
           <div className="text-6xl mb-3">{personaMeta.icon}</div>
           <h2 className="font-display text-2xl text-primary font-bold mb-2">{vibeResult.persona}</h2>
           <p className="font-body text-body-md text-on-surface-variant italic">"{vibeResult.tagline}"</p>
@@ -92,10 +92,10 @@ export default function YourVibeScreen({ vibeResult }) {
             {scoreEntries.map(([vibe, score]) => {
               const pct = Math.round((score / maxScore) * 100)
               return (
-                <div key={vibe} className="glass-card rounded-xl p-4 text-center">
+                <div key={vibe} className="bg-surface border border-outline-variant rounded-xl p-4 text-center">
                   <div className="text-2xl mb-1">{AXIS_ICONS[vibe] || '🌟'}</div>
                   <div className="font-label text-label-md text-primary font-semibold">{AXIS_ICONS[vibe]} {vibe}</div>
-                  <div className="mt-2 h-1.5 bg-primary/10 rounded-full overflow-hidden">
+                  <div className="mt-2 h-1.5 bg-surface-high rounded-full overflow-hidden">
                     <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${pct}%` }} />
                   </div>
                   <div className="font-label text-caption text-on-surface-variant mt-1">{pct}%</div>
@@ -111,7 +111,7 @@ export default function YourVibeScreen({ vibeResult }) {
             <h3 className="font-label text-label-md text-on-surface-variant uppercase tracking-widest mb-3">Địa điểm phù hợp với bạn</h3>
             <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
               {photos.map(photo => (
-                <div key={photo.id} className="flex-shrink-0 w-40 h-28 rounded-xl overflow-hidden shadow-md">
+                <div key={photo.id} className="flex-shrink-0 w-40 h-28 rounded-xl overflow-hidden shadow-card">
                   <img
                     src={photo.urls.small}
                     alt={photo.alt_description || 'travel'}

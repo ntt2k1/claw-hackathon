@@ -25,11 +25,11 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz }) 
   }
 
   return (
-    <div className="min-h-screen flex flex-col px-container-margin pt-20 pb-32 relative overflow-hidden">
-      <div className="fixed top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
-      <div className="fixed bottom-1/4 left-0 w-80 h-80 bg-tertiary/10 rounded-full blur-3xl -z-10" />
+    <div className="min-h-screen flex flex-col px-container-margin pt-20 pb-32 relative overflow-hidden bg-background">
+      <div className="fixed top-0 right-0 w-64 h-64 bg-cyber-purple/10 rounded-full blur-3xl -z-10" />
+      <div className="fixed bottom-1/4 left-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl -z-10" />
 
-      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-white/20 shadow-sm flex justify-between items-center px-container-margin h-16 left-0">
+      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-outline-variant flex justify-between items-center px-container-margin h-16 left-0">
         <div className="w-8" />
         <h1 className="font-display text-headline-lg-mobile text-primary tracking-tighter">SOLE</h1>
         {user && (
@@ -38,7 +38,7 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz }) 
       </header>
 
       <div className="mb-stack-lg mt-4">
-        <p className="font-label text-label-md text-primary uppercase tracking-widest bg-primary/10 px-4 py-1 rounded-full inline-block mb-stack-sm">
+        <p className="font-label text-label-md text-primary uppercase tracking-widest bg-primary/10 border border-primary/30 px-4 py-1 rounded-full inline-block mb-stack-sm">
           {user?.has_vibe ? 'Khám phá tiếp' : 'Bắt đầu'}
         </p>
         <h2 className="font-display text-headline-lg-mobile text-on-surface leading-tight tracking-tight">
@@ -47,7 +47,7 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz }) 
 
         {vibeResult && user?.has_vibe && (
           <div className="flex items-center gap-3 mt-3">
-            <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2">
+            <div className="flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-2">
               <span className="text-lg">{PERSONA_ICONS[vibeResult.persona] || '✨'}</span>
               <span className="font-label text-label-md text-primary">
                 {vibeResult.persona || vibeResult.primary}
@@ -73,8 +73,8 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz }) 
             onClick={() => setTripType(opt.value)}
             className={`flex flex-col items-center justify-center rounded-lg p-5 border-2 transition-all active:scale-95 ${
               tripType === opt.value
-                ? 'bg-primary-container border-primary shadow-md'
-                : 'bg-surface-container-low border-transparent'
+                ? 'bg-primary/10 border-primary shadow-neon-green'
+                : 'bg-surface border border-outline-variant'
             }`}
           >
             <span className="text-3xl mb-2">{opt.icon}</span>
@@ -107,15 +107,15 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz }) 
           placeholder="VD: Quận 1, TP.HCM"
           value={location}
           onChange={e => { setLocation(e.target.value); setError('') }}
-          className="w-full bg-white/70 backdrop-blur border border-white/30 rounded-DEFAULT px-4 py-3 font-body text-body-md text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:border-primary"
+          className="w-full bg-surface-container-high border border-outline-variant rounded-DEFAULT px-4 py-3 font-body text-body-md text-on-surface placeholder-on-surface-dim/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
         />
-        {error && <p className="text-red-500 font-label text-caption mt-1">{error}</p>}
+        {error && <p className="text-red-400 font-label text-caption mt-1">{error}</p>}
       </div>
 
       <div className="fixed bottom-0 left-0 w-full px-container-margin pb-10 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
         <button
           onClick={handleContinue}
-          className="sunset-gradient text-on-primary w-full py-4 rounded-full font-label text-label-md uppercase tracking-widest shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2"
+          className="neon-gradient text-on-primary w-full py-4 rounded-full font-label text-label-md uppercase tracking-widest shadow-neon-green active:scale-95 transition-transform flex items-center justify-center gap-2"
         >
           {user?.has_vibe ? 'Xem gợi ý ngay' : 'Bắt đầu khám phá'}
           <span className="material-symbols-outlined">arrow_forward</span>

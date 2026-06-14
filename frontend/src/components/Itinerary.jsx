@@ -21,9 +21,9 @@ export default function Itinerary({ recommendations, loading, tripType, location
 
   return (
     <div className="min-h-screen bg-background pb-32 relative overflow-hidden">
-      <div className="fixed top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
+      <div className="fixed top-0 right-0 w-64 h-64 bg-cyber-purple/10 rounded-full blur-3xl -z-10" />
 
-      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-white/20 shadow-sm flex justify-center items-center h-16 left-0">
+      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-outline-variant flex justify-center items-center h-16 left-0">
         <h1 className="font-display text-headline-lg-mobile text-primary tracking-tighter">SOLE</h1>
       </header>
 
@@ -53,16 +53,16 @@ export default function Itinerary({ recommendations, loading, tripType, location
                 style={{ animationDelay: `${i * 0.1}s`, opacity: 0, animationFillMode: 'forwards' }}
               >
                 <div className="flex flex-col items-center flex-shrink-0">
-                  <div className="w-4 h-4 sunset-gradient rounded-full mt-1 shadow-md" />
+                  <div className="w-4 h-4 bg-primary rounded-full mt-1 shadow-neon-green" />
                   {i < recommendations.itinerary.length - 1 && (
                     <div className="w-0.5 flex-1 bg-primary/20 mt-1" style={{ minHeight: '2rem' }} />
                   )}
                 </div>
 
-                <div className="glass-card flex-1 rounded-lg p-stack-md mb-2">
+                <div className="bg-surface border border-outline-variant rounded-xl flex-1 p-stack-md mb-2">
                   <div className="flex justify-between items-start mb-1">
                     <p className="font-display text-headline-md text-on-surface leading-tight">
-                      {item.time && <span className="text-primary mr-2">{item.time}</span>}
+                      {item.time && <span className="text-primary font-bold mr-2">{item.time}</span>}
                       {item.name}
                     </p>
                   </div>
@@ -73,17 +73,17 @@ export default function Itinerary({ recommendations, loading, tripType, location
                   )}
                   <div className="flex gap-3 flex-wrap">
                     {item.duration_note && (
-                      <span className="font-label text-caption bg-primary/10 text-primary px-3 py-1 rounded-full">
+                      <span className="font-label text-caption bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full">
                         ⏱ {item.duration_note}
                       </span>
                     )}
                     {item.distance_from_prev && (
-                      <span className="font-label text-caption bg-tertiary/10 text-tertiary px-3 py-1 rounded-full">
+                      <span className="font-label text-caption bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full">
                         📍 {item.distance_from_prev}
                       </span>
                     )}
                   </div>
-                  <div className="mt-3 pt-3 border-t border-white/20 flex gap-3">
+                  <div className="mt-3 pt-3 border-t border-outline-variant flex gap-3">
                     {(() => {
                       const placeId = `${i}-${(item.name || '').replace(/\s+/g, '-').toLowerCase()}`
                       const current = ratings[placeId]
@@ -93,8 +93,8 @@ export default function Itinerary({ recommendations, loading, tripType, location
                             onClick={() => handleRate(item, i, 'like')}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-label transition-colors ${
                               current === 'like'
-                                ? 'bg-green-100 text-green-700 border border-green-300'
-                                : 'bg-white/50 text-on-surface-variant border border-white/30 hover:bg-green-50'
+                                ? 'bg-primary/10 border border-primary text-primary'
+                                : 'bg-surface-high border border-outline-variant text-on-surface-variant hover:border-primary/50'
                             }`}
                           >
                             👍 <span>Thích</span>
@@ -103,8 +103,8 @@ export default function Itinerary({ recommendations, loading, tripType, location
                             onClick={() => handleRate(item, i, 'dislike')}
                             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-label transition-colors ${
                               current === 'dislike'
-                                ? 'bg-red-50 text-red-600 border border-red-200'
-                                : 'bg-white/50 text-on-surface-variant border border-white/30 hover:bg-red-50'
+                                ? 'bg-red-500/10 border border-red-500 text-red-400'
+                                : 'bg-surface-high border border-outline-variant text-on-surface-variant hover:border-red-500/50'
                             }`}
                           >
                             👎 <span>Không hợp</span>
@@ -130,7 +130,7 @@ export default function Itinerary({ recommendations, loading, tripType, location
         <div className="fixed bottom-0 left-0 w-full px-container-margin pb-10 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
           <button
             onClick={onRestart}
-            className="w-full bg-surface-container border-2 border-primary/30 text-primary py-4 rounded-full font-label text-label-md uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2"
+            className="w-full bg-surface border-2 border-primary/30 text-primary py-4 rounded-full font-label text-label-md uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2"
           >
             <span className="material-symbols-outlined">refresh</span>
             Lên kế hoạch lại
@@ -180,9 +180,9 @@ function SkeletonItinerary() {
         <p className="font-label text-label-md text-on-surface-variant mb-3">
           {STEPS[stepIdx].label}
         </p>
-        <div className="inline-flex items-center gap-2 sunset-gradient px-4 py-2 rounded-full">
-          <span className="material-symbols-outlined text-white text-base">schedule</span>
-          <span className="font-label text-label-md text-white tabular-nums">{timeStr}</span>
+        <div className="inline-flex items-center gap-2 neon-gradient px-4 py-2 rounded-full">
+          <span className="material-symbols-outlined text-on-primary text-base">schedule</span>
+          <span className="font-label text-label-md text-on-primary tabular-nums">{timeStr}</span>
         </div>
         <p className="font-label text-caption text-on-surface-variant mt-3">
           LLM đang xử lý — thường mất 15–30 giây
@@ -197,7 +197,7 @@ function SkeletonItinerary() {
               <div className="w-4 h-4 bg-primary/30 rounded-full mt-1" />
               {i < 4 && <div className="w-0.5 bg-primary/10 mt-1" style={{ minHeight: '2rem' }} />}
             </div>
-            <div className="flex-1 bg-surface-container rounded-lg p-stack-md">
+            <div className="flex-1 bg-surface-high animate-pulse rounded-xl p-stack-md">
               <div className="h-4 bg-surface-container-high rounded w-3/4 mb-2" />
               <div className="h-3 bg-surface-container-high rounded w-full mb-1" />
               <div className="h-3 bg-surface-container-high rounded w-2/3" />

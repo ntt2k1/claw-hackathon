@@ -35,10 +35,10 @@ export default function VibeResult({ vibeResult, onContinue }) {
 
   return (
     <div className="min-h-screen bg-background pt-20 pb-32 px-container-margin relative overflow-hidden">
-      <div className="fixed top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
-      <div className="fixed bottom-1/4 left-0 w-80 h-80 bg-tertiary/10 rounded-full blur-3xl -z-10" />
+      <div className="fixed top-0 right-0 w-64 h-64 bg-cyber-purple/10 rounded-full blur-3xl -z-10" />
+      <div className="fixed bottom-1/4 left-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl -z-10" />
 
-      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-white/20 shadow-sm flex justify-center items-center h-16 left-0">
+      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-outline-variant flex justify-center items-center h-16 left-0">
         <h1 className="font-display text-headline-lg-mobile text-primary tracking-tighter">SOLE</h1>
       </header>
 
@@ -54,20 +54,19 @@ export default function VibeResult({ vibeResult, onContinue }) {
         </p>
       </div>
 
-      <div className="relative w-full mb-stack-lg rounded-xl overflow-hidden shadow-lg group" style={{ aspectRatio: '4/3' }}>
+      <div className="relative w-full mb-stack-lg rounded-xl overflow-hidden shadow-card group" style={{ aspectRatio: '4/3' }}>
         <div
-          className="absolute inset-0 flex items-center justify-center"
-          style={{ background: 'linear-gradient(135deg, #ffe9e5 0%, #ffdad3 100%)' }}
+          className="absolute inset-0 flex items-center justify-center bg-surface border border-outline-variant"
         >
-          <div className="text-9xl opacity-20">{AXIS_ICONS[primary] || '✨'}</div>
+          <div className="text-9xl opacity-10">{AXIS_ICONS[primary] || '✨'}</div>
         </div>
-        <div className="absolute inset-0 flex items-center justify-center p-6 bg-black/10">
-          <div className="glass-card w-full p-stack-lg rounded-lg shadow-2xl transform transition-transform group-hover:scale-[1.02] duration-500">
+        <div className="absolute inset-0 flex items-center justify-center p-6">
+          <div className="glass-card w-full p-stack-lg rounded-xl shadow-card transform transition-transform group-hover:scale-[1.02] duration-500">
             <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 sunset-gradient rounded-full flex items-center justify-center mb-stack-md shadow-[0_8px_32px_rgba(255,107,107,0.4)] animate-float text-4xl">
+              <div className="w-20 h-20 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center mb-stack-md animate-float text-4xl">
                 {AXIS_ICONS[primary] || '✨'}
               </div>
-              <h3 className="font-display text-headline-lg text-primary mb-2">
+              <h3 className="font-display text-headline-lg text-primary font-black mb-2">
                 {persona}
               </h3>
               <p className="font-body text-body-md text-on-surface-variant italic">
@@ -83,7 +82,7 @@ export default function VibeResult({ vibeResult, onContinue }) {
           <h4 className="font-display text-headline-md text-on-surface">Travel DNA</h4>
           <span className="font-label text-label-md text-primary">Uniquely Yours</span>
         </div>
-        <div className="bg-white/50 backdrop-blur-md rounded-lg p-stack-md border border-white/40 shadow-sm space-y-6">
+        <div className="bg-surface border border-outline-variant rounded-xl p-stack-md space-y-6">
           {sortedAxes.map(([axis, pct], i) => (
             <div key={axis} className="space-y-2">
               <div className="flex justify-between items-center px-1">
@@ -92,11 +91,11 @@ export default function VibeResult({ vibeResult, onContinue }) {
                 </span>
                 <span className="font-label text-label-md text-primary">{pct}%</span>
               </div>
-              <div className="h-4 w-full bg-surface-container-highest rounded-full overflow-hidden">
+              <div className="h-4 w-full bg-surface-high rounded-full overflow-hidden">
                 <div
                   ref={el => barsRef.current[i] = el}
                   data-target={`${pct}%`}
-                  className="h-full sunset-gradient rounded-full"
+                  className="h-full bg-primary rounded-full"
                   style={{ width: '0%' }}
                 />
               </div>
@@ -108,7 +107,7 @@ export default function VibeResult({ vibeResult, onContinue }) {
       <div className="fixed bottom-0 left-0 w-full px-container-margin pb-10 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
         <button
           onClick={onContinue}
-          className="sunset-gradient text-on-primary w-full py-4 rounded-full font-label text-label-md uppercase tracking-widest shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2 max-w-sm mx-auto"
+          className="neon-gradient text-on-primary w-full py-4 rounded-full font-label text-label-md uppercase tracking-widest shadow-neon-green active:scale-95 transition-transform flex items-center justify-center gap-2 max-w-sm mx-auto"
         >
           Show Places For Me
         </button>
