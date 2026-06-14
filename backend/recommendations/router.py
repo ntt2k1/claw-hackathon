@@ -12,6 +12,7 @@ class QuizCompleteRequest(BaseModel):
     primary_vibe: str
     secondary_vibe: str | None = None
     scores: dict[str, int]
+    persona: str | None = None
 
 class RecommendationsRequest(BaseModel):
     primary_vibe: str
@@ -36,6 +37,7 @@ async def quiz_complete(
         "primary_vibe": req.primary_vibe,
         "secondary_vibe": req.secondary_vibe,
         "scores": req.scores,
+        "persona": req.persona,
         "completed_at": datetime.now(timezone.utc).isoformat(),
     }
     await save_vibe_profile(user_id, profile)
