@@ -1,51 +1,54 @@
-import { VIBES } from '../data/questions.js'
+import { QUESTIONS, MAX_POSSIBLE, PERSONA_MAP } from '../data/questions.js'
 
 /**
- * @param {Record<string, string>} singleAnswers  - { q1: 'foodie', q2: 'explorer', ... }
- * @param {Record<string, number>} ratingAnswers  - { r1: 4, r2: 2, ... }
- * @param {Array}                  ratingQuestions - RATING_QUESTIONS array
- * @returns {{ scores: Record<string,number>, primary: string, secondary: string|null }}
+ * Calculate DNA scores from quiz answers.
+ * @param {Array<{questionNum: number, selectedOption: string}>} answers
+ * @returns {{ axes: Record<string,number>, primary: string, secondary: string, persona: string, tagline: string, accentColor: string }}
  */
-export function calculateScores(singleAnswers, ratingAnswers, ratingQuestions) {
-  const scores = Object.fromEntries(VIBES.map(v => [v, 0]))
+export function calculateScores(answers) {
+  // Accumulate raw scores per axis
+  const raw = {}
+  for (const axis of Object.keys(MAX_POSSIBLE)) {
+    raw[axis] = 0
+  }
 
-  // Single choice: +2 per correct vibe answer
-  for (const vibe of Object.values(singleAnswers)) {
-    if (vibe && scores[vibe] !== undefined) {
-      scores[vibe] += 2
+  for (const { questionNum, selectedOption } of answers) {
+    const q = QUESTIONS.find(q => q.num === questionNum)
+    if (!q) continue
+    const opt = q.options.find(o => o.letter === selectedOption)
+    if (!opt) continue
+    for (const [axis, points] of Object.entries(opt.scores)) {
+      if (raw[axis] !== undefined) {
+        raw[axis] += points
+      }
     }
   }
 
-  // Rating: add directly (1-5)
-  for (const q of ratingQuestions) {
-    const rating = ratingAnswers[q.id] ?? 0
-    scores[q.vibe] += rating
+  // Clamp negatives to 0, normalize to 0-100 (capped at 100)
+  const axes = {}
+  for (const [axis, maxVal] of Object.entries(MAX_POSSIBLE)) {
+    const clamped = Math.max(0, raw[axis])
+    axes[axis] = Math.min(100, Math.round((clamped / maxVal) * 100))
   }
 
-  return { scores, ...determineVibe(scores) }
-}
-
-/**
- * @param {Record<string, number>} scores
- * @returns {{ primary: string, secondary: string|null }}
- */
-export function determineVibe(scores) {
-  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1])
+  // Sort axes descending
+  const sorted = Object.entries(axes).sort((a, b) => b[1] - a[1])
   const primary = sorted[0][0]
-  const secondScore = sorted[1][1]
-  const primaryScore = sorted[0][1]
-  const secondary = (primaryScore - secondScore) <= 3 ? sorted[1][0] : null
-  return { primary, secondary }
-}
+  const secondary = sorted[1][0]
+  const top3Keys = sorted.slice(0, 3).map(([k]) => k)
 
-/**
- * Convert scores (0-25) to percentages for display.
- * @param {Record<string,number>} scores
- * @returns {Record<string,number>}
- */
-export function scoresToPercent(scores) {
-  const max = 25
-  return Object.fromEntries(
-    Object.entries(scores).map(([k, v]) => [k, Math.round((v / max) * 100)])
-  )
+  // Find persona: first entry whose key array is fully contained in top3
+  const matched = PERSONA_MAP.find(p => {
+    if (p.key === 'default') return false
+    return p.key.every(k => top3Keys.includes(k))
+  }) || PERSONA_MAP.find(p => p.key === 'default')
+
+  return {
+    axes,
+    primary,
+    secondary,
+    persona: matched.name,
+    tagline: matched.tagline,
+    accentColor: matched.accentColor,
+  }
 }
