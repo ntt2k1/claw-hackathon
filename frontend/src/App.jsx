@@ -18,6 +18,8 @@ export default function App() {
   const [tripType, setTripType] = useState('inday')
   const [duration, setDuration] = useState(8)
   const [location, setLocation] = useState('')
+  const [userNeed, setUserNeed] = useState('')
+  const [budget, setBudget] = useState('')
   const [quizAnswers, setQuizAnswers] = useState([])
   const [vibeResult, setVibeResult] = useState(null)
   const [recommendations, setRecommendations] = useState(null)
@@ -58,6 +60,8 @@ export default function App() {
     setTripType(entryData.tripType)
     setDuration(entryData.duration)
     setLocation(entryData.location)
+    setUserNeed(entryData.userNeed || '')
+    setBudget(entryData.budget || '')
     if (user?.has_vibe && vibeResult) {
       // Already has vibe — go straight to recommendations
       handleGetRecommendationsWithEntry(entryData, vibeResult)
@@ -79,6 +83,8 @@ export default function App() {
         duration: entryData.duration,
         persona: vibe.persona,
         scores: vibe.axes,
+        user_need: entryData.userNeed || '',
+        budget: entryData.budget || '',
       })
       setRecommendations(data)
     } catch (e) {
@@ -125,6 +131,8 @@ export default function App() {
         duration,
         persona: vibeResult.persona,
         scores: vibeResult.axes,
+        user_need: userNeed,
+        budget,
       })
       setRecommendations(data)
     } catch (e) {
