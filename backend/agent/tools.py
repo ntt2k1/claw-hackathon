@@ -41,11 +41,117 @@ async def describe_vibe(persona: str, axes: dict[str, int]) -> dict:
     hashtags = ["#" + a.replace(" ", "") for a, _ in top_axes]
     return {"icon": icon, "description": desc, "hashtags": hashtags}
 
+async def search_and_plan(
+    persona: str,
+    axes: dict[str, int],
+    location: str,
+    trip_type: str,
+    duration: int,
+    user_need: str | None = None,
+    budget: str | None = None,
+) -> dict:
+    """Returns {"places": [...], "itinerary": [...]} in a single LLM call."""
+    llm = _get_llm(temperature=0.3)
+
+    top3 = sorted(axes.items(), key=lambda x: x[1], reverse=True)[:3]
+    axes_context = "\n".join(
+        f"- {axis} ({score}%): {AXIS_VI.get(axis, axis)}"
+        for axis, score in top3
+    )
+
+    top_axis = top3[0][0] if top3 else "Phiêu lưu"
+    place_type_hint = {
+        "Ẩm thực": "restaurants, local eateries, food markets, specialty cafes",
+        "Văn hoá": "museums, heritage sites, old quarters, art galleries, architecture",
+        "Thiên nhiên": "parks, lakes, mountains, gardens, eco spots",
+        "Phiêu lưu": "challenging terrain, outdoor activities, hiking, kayaking",
+        "Sang chảnh": "boutique hotels, spas, fine dining, rooftop lounges",
+        "Giao lưu": "rooftop bars, live music venues, community spaces, night markets",
+        "Tọa độ ngách": "hidden cafes, back-alley spots, local-only places",
+        "Thư giãn": "quiet cafes, gardens, reading spaces, small resorts",
+        "Nhiếp ảnh": "scenic streets, unique architecture, aesthetic cafes, viewpoints",
+        "Hiệu quả": "central hubs, well-connected areas, clustered attractions",
+    }.get(top_axis, "notable, distinctive spots")
+
+    need_line = f"\nUser's current mood/need: {user_need}" if user_need else ""
+    budget_line = f"\nTotal budget: {budget} VND" if budget else ""
+
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", """You are a Vietnam travel expert and itinerary planner with up-to-date local knowledge.
+
+STRICT RULES:
+1. ONLY suggest places you are CERTAIN exist
+2. NEVER invent place names, addresses, or districts
+3. MUST include specific address (street + district/ward) for each place
+4. Prioritize authentic, less-touristy spots matching the DNA over overcrowded landmarks
+5. If uncertain about a place's exact address, omit it
+6. Return 5-6 places maximum
+
+Output: valid JSON object only, no markdown, no explanation."""),
+        ("human", """Find places and build an itinerary in {location} for a {trip_type}.
+
+Traveler DNA persona: {persona}
+Top travel axes:
+{axes_context}
+{need_line}
+{budget_line}
+Duration: {duration} {unit}
+Priority place type: {place_type_hint}
+
+Return a JSON object:
+{{
+  "places": [
+    {{
+      "name": "place name",
+      "address": "specific street address",
+      "district": "district/ward",
+      "type": "food/sightseeing/activity/cafe/bar/nature",
+      "description": "1-2 sentence description",
+      "why_match": "one sentence why it matches the DNA",
+      "best_for": "which axis fits best (e.g. Ẩm thực)",
+      "price_range": "$ / $$ / $$$ / $$$$"
+    }}
+  ],
+  "itinerary": [
+    {{
+      "time": "9:00 (or Day 1 - Morning)",
+      "name": "place name from places list",
+      "address": "address from places list",
+      "description": "short engaging description",
+      "duration_note": "e.g. ~45 min",
+      "distance_from_prev": "e.g. ~1.2km, 15 min walk or 5 min Grab",
+      "tip": "optional useful tip"
+    }}
+  ]
+}}"""),
+    ])
+
+    chain = prompt | llm
+    result = await chain.ainvoke({
+        "persona": persona,
+        "axes_context": axes_context,
+        "location": location,
+        "trip_type": "day trip" if trip_type == "inday" else "multi-day trip",
+        "duration": duration,
+        "unit": "hours" if trip_type == "inday" else "days",
+        "place_type_hint": place_type_hint,
+        "need_line": need_line,
+        "budget_line": budget_line,
+    })
+
+    text = result.content.strip()
+    if text.startswith("```"):
+        lines = text.split("\n")
+        text = "\n".join(lines[1:-1] if lines[-1].strip() == "```" else lines[1:])
+    return json.loads(text)
+
 async def search_locations(
     persona: str,
     axes: dict[str, int],
     location: str,
     trip_type: str,
+    user_need: str | None = None,
+    budget: str | None = None,
 ) -> list[dict]:
     """Returns 6-8 real place recommendations matched to DNA profile."""
     llm = _get_llm(temperature=0.3)
@@ -72,41 +178,32 @@ async def search_locations(
         "Hiệu quả": "điểm tập trung, trung tâm khu vực, tiện di chuyển",
     }.get(top_axis, "địa điểm nổi bật, đặc trưng")
 
+    need_line = f"\nUser's current mood/need: {user_need}" if user_need else ""
+    budget_line = f"\nTotal budget: {budget} VND" if budget else ""
+
     prompt = ChatPromptTemplate.from_messages([
-        ("system", """Bạn là chuyên gia địa điểm du lịch Việt Nam với kiến thức thực tế và cập nhật.
+        ("system", """You are a Vietnam travel expert with up-to-date, real-world local knowledge.
 
-QUY TẮC QUAN TRỌNG VỀ ĐỘ CHÍNH XÁC:
-1. CHỈ gợi ý những địa điểm bạn CHẮC CHẮN tồn tại tại địa điểm được yêu cầu
-2. KHÔNG tạo ra hoặc phỏng đoán tên địa điểm — chỉ dùng địa điểm bạn biết chắc
-3. PHẢI bao gồm địa chỉ cụ thể (đường phố, quận/huyện) để user có thể tìm được
-4. Ưu tiên địa điểm đặc trưng, ít tourist, phù hợp DNA thay vì landmark nổi tiếng quá mức
-5. Nếu không biết địa chỉ chính xác, ĐỪNG thêm địa điểm đó vào danh sách
-6. Trả về JSON array thuần túy, không markdown"""),
-        ("human", """User profile DNA:
-Persona: {persona}
-Top 3 priorities:
+STRICT RULES:
+1. ONLY suggest places you are CERTAIN exist right now
+2. NEVER invent or hallucinate place names, addresses, or districts
+3. MUST include specific address (street + district/ward)
+4. Prioritize authentic, less-touristy spots that match the DNA over overcrowded landmarks
+5. If uncertain about a place's exact address, omit it entirely
+6. Return 6-8 places maximum
+
+Output: valid JSON array only, no markdown, no explanation."""),
+        ("human", """Find places in {location} for a {trip_type} trip.
+
+Traveler DNA persona: {persona}
+Top travel axes:
 {axes_context}
+{need_line}
+{budget_line}
+Priority place type: {place_type_hint}
 
-Yêu cầu: Gợi ý 6-8 địa điểm tại {location} phù hợp với profile trên.
-Loại chuyến: {trip_type}
-Ưu tiên loại địa điểm: {place_type_hint}
-
-Quan trọng: Tránh gợi ý những landmark quá nổi tiếng trừ khi thực sự phù hợp với DNA.
-Ưu tiên địa điểm đặc trưng, authentic, match với persona "{persona}".
-
-Trả về JSON array:
-[{{
-  "name": "tên địa điểm",
-  "address": "địa chỉ đường phố cụ thể",
-  "district": "quận/huyện",
-  "type": "loại (ăn uống/tham quan/hoạt động/cafe/bar/thiên nhiên)",
-  "description": "mô tả 1-2 câu",
-  "why_match": "lý do phù hợp với DNA của user (1 câu)",
-  "best_for": "axis nào phù hợp nhất (ví dụ: Ẩm thực)",
-  "price_range": "$ / $$ / $$$ / $$$$"
-}}]
-
-Chỉ trả về JSON array, không text khác."""),
+Return JSON array of objects with fields:
+name, address, district, type, description, why_match, best_for, price_range"""),
     ])
 
     chain = prompt | llm
@@ -114,8 +211,10 @@ Chỉ trả về JSON array, không text khác."""),
         "persona": persona,
         "axes_context": axes_context,
         "location": location,
-        "trip_type": "trong ngày" if trip_type == "inday" else "nhiều ngày",
+        "trip_type": "day trip" if trip_type == "inday" else "multi-day trip",
         "place_type_hint": place_type_hint,
+        "need_line": need_line,
+        "budget_line": budget_line,
     })
 
     text = result.content.strip()
@@ -132,33 +231,32 @@ async def build_itinerary(
     """Returns an ordered itinerary with time/distance estimates."""
     llm = _get_llm(temperature=0.3)
     places_json = json.dumps(places, ensure_ascii=False)
-    unit = "giờ" if trip_type == "inday" else "ngày"
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "Bạn là chuyên gia lên lịch trình du lịch tại Việt Nam. Trả về JSON array thuần túy, không markdown."),
-        ("human", """Lên lịch trình từ: {origin}
-Thời lượng: {duration} {unit}
-Địa điểm: {places}
+        ("system", "You are a Vietnam trip itinerary planner. Return pure JSON array only, no markdown."),
+        ("human", """Build an itinerary starting from: {origin}
+Duration: {duration} {unit}
+Places: {places}
 
-Sắp xếp theo thứ tự địa lý tối ưu (gần nhau, hợp lý về thời gian trong ngày).
+Order stops geographically (nearby places grouped, sensible time-of-day flow).
 
-Trả về JSON array:
+Return JSON array:
 [{{
-  "time": "9:00" (hoặc "Ngày 1 - Sáng"),
-  "name": "tên địa điểm",
-  "address": "địa chỉ từ danh sách",
-  "description": "mô tả ngắn hấp dẫn",
-  "duration_note": "ví dụ: ~45 phút",
-  "distance_from_prev": "ví dụ: ~1.2km, đi bộ 15 phút hoặc Grab 5 phút",
-  "tip": "mẹo nhỏ hữu ích (optional)"
+  "time": "9:00" (or "Day 1 - Morning"),
+  "name": "place name",
+  "address": "address from the list",
+  "description": "short engaging description",
+  "duration_note": "e.g. ~45 min",
+  "distance_from_prev": "e.g. ~1.2km, 15 min walk or 5 min Grab",
+  "tip": "optional useful tip"
 }}]
 
-Chỉ trả về JSON array."""),
+Return JSON array only."""),
     ])
     chain = prompt | llm
     result = await chain.ainvoke({
         "origin": origin,
         "duration": duration,
-        "unit": unit,
+        "unit": "hours" if trip_type == "inday" else "days",
         "places": places_json,
     })
     text = result.content.strip()
