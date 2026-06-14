@@ -76,6 +76,8 @@ export default function App() {
         location: entryData.location,
         trip_type: entryData.tripType,
         duration: entryData.duration,
+        persona: vibe.persona,
+        scores: vibe.axes,
       })
       setRecommendations(data)
     } catch (e) {
@@ -120,6 +122,8 @@ export default function App() {
         location,
         trip_type: tripType,
         duration,
+        persona: vibeResult.persona,
+        scores: vibeResult.axes,
       })
       setRecommendations(data)
     } catch (e) {

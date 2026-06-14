@@ -20,6 +20,8 @@ class RecommendationsRequest(BaseModel):
     location: str
     trip_type: str  # "inday" | "multiday"
     duration: int   # hours if inday, days if multiday
+    persona: str | None = None
+    scores: dict[str, int] | None = None
 
 class PlaceRatingRequest(BaseModel):
     placeId: str
@@ -58,6 +60,18 @@ async def get_recommendations(
     req: RecommendationsRequest,
     user_id: str = Depends(get_current_user_id),
 ):
+    # If persona/scores not in request, fall back to stored profile
+    persona = req.persona
+    axes = req.scores
+    if not persona or not axes:
+        try:
+            profile = await get_vibe_profile(user_id)
+            if profile:
+                persona = persona or profile.get("persona")
+                axes = axes or profile.get("scores")
+        except Exception:
+            pass
+
     try:
         result = await run_recommendation_pipeline(
             primary_vibe=req.primary_vibe,
@@ -65,6 +79,8 @@ async def get_recommendations(
             location=req.location,
             trip_type=req.trip_type,
             duration=req.duration,
+            persona=persona,
+            axes=axes,
         )
         return result
     except Exception as e:
