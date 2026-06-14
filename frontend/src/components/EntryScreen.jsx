@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const BUDGET_OPTS = ['500K', '1M', '2M', '5M', '10M+']
+
 const PERSONA_ICONS = {
   "Kẻ Khám Phá Bản Địa": "🔍",
   "Luxury Escapist": "💎",
@@ -15,13 +17,22 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz, on
   const [location, setLocation] = useState('')
   const [duration, setDuration] = useState(8)
   const [error, setError] = useState('')
+  const [userNeed, setUserNeed] = useState('')
+  const [budgetPill, setBudgetPill] = useState('')
+  const [budgetCustom, setBudgetCustom] = useState('')
 
   function handleContinue() {
     if (!location.trim()) {
       setError('Vui lòng nhập địa điểm của bạn')
       return
     }
-    onDone({ tripType, location: location.trim(), duration })
+    onDone({
+      tripType,
+      location: location.trim(),
+      duration,
+      userNeed: userNeed.trim(),
+      budget: budgetPill || budgetCustom,
+    })
   }
 
   return (
@@ -105,6 +116,55 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz, on
           onChange={e => setDuration(Number(e.target.value))}
           className="w-full accent-primary"
         />
+      </div>
+
+      {/* Nhu cầu / tâm trạng */}
+      <div className="mb-stack-md">
+        <label className="font-label text-label-md text-on-surface-variant mb-2 block">
+          💭 Nhu cầu / tâm trạng của bạn <span className="text-on-surface-dim/50">(tùy chọn)</span>
+        </label>
+        <textarea
+          rows={2}
+          placeholder="VD: Mình đang mệt, muốn tìm chỗ yên tĩnh uống cà phê và đọc sách..."
+          value={userNeed}
+          onChange={e => setUserNeed(e.target.value)}
+          className="w-full bg-surface-container-high border border-outline-variant rounded-DEFAULT px-4 py-3 font-body text-body-md text-on-surface placeholder-on-surface-dim/60 focus:outline-none focus:border-primary resize-none transition-colors"
+        />
+      </div>
+
+      {/* Ngân sách */}
+      <div className="mb-stack-md">
+        <label className="font-label text-label-md text-on-surface-variant mb-2 block">
+          💰 Ngân sách <span className="text-on-surface-dim/50">(tùy chọn)</span>
+        </label>
+        <div className="flex gap-2 flex-wrap mb-2">
+          {BUDGET_OPTS.map(opt => (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => { setBudgetPill(opt === budgetPill ? '' : opt); setBudgetCustom('') }}
+              className={`px-3 py-1.5 rounded-full font-label text-label-md border transition-all active:scale-95 ${
+                budgetPill === opt
+                  ? 'bg-primary/10 border-primary text-primary'
+                  : 'bg-surface border-outline-variant text-on-surface-variant'
+              }`}
+            >
+              {opt}
+            </button>
+          ))}
+        </div>
+        {!budgetPill && (
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              placeholder="Nhập số tiền..."
+              value={budgetCustom}
+              onChange={e => setBudgetCustom(e.target.value)}
+              className="flex-1 bg-surface-container-high border border-outline-variant rounded-DEFAULT px-4 py-2.5 font-body text-body-md text-on-surface placeholder-on-surface-dim/60 focus:outline-none focus:border-primary transition-colors"
+            />
+            <span className="font-label text-label-md text-on-surface-variant">VNĐ</span>
+          </div>
+        )}
       </div>
 
       <div className="mb-stack-md">
