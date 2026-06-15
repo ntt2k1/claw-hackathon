@@ -75,6 +75,12 @@ async def get_recommendations(
             pass
 
     try:
+        ratings = await get_place_ratings(user_id)
+        disliked = [r["placeName"] for r in ratings if r.get("rating") == "dislike"]
+    except Exception:
+        disliked = []
+
+    try:
         result = await run_recommendation_pipeline(
             primary_vibe=req.primary_vibe,
             secondary_vibe=req.secondary_vibe,
@@ -85,6 +91,7 @@ async def get_recommendations(
             axes=axes,
             user_need=req.user_need,
             budget=req.budget,
+            disliked_places=disliked,
         )
         return result
     except Exception as e:

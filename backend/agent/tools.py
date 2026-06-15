@@ -98,6 +98,7 @@ async def search_and_plan(
     duration: int,
     user_need: str | None = None,
     budget: str | None = None,
+    disliked_places: list[str] | None = None,
 ) -> dict:
     """Returns {"places": [...], "itinerary": [...]} in a single LLM call."""
     llm = _get_llm(temperature=0.3)
@@ -127,6 +128,10 @@ async def search_and_plan(
     now = datetime.now()
     season = _vietnam_season(now.month)
     date_line = f"\nCurrent date: {now.strftime('%A, %B %d, %Y')} ({season})"
+    if disliked_places:
+        avoid_line = "\nDo NOT suggest these places (user has previously disliked them):\n" + "\n".join(f"- {p}" for p in disliked_places)
+    else:
+        avoid_line = ""
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", """You are a Vietnam travel expert and itinerary planner with up-to-date local knowledge.
@@ -148,6 +153,7 @@ Top travel axes:
 {need_line}
 {budget_line}
 {date_line}
+{avoid_line}
 Duration: {duration} {unit}
 Priority place type: {place_type_hint}
 
@@ -191,6 +197,7 @@ Return a JSON object:
         "need_line": need_line,
         "budget_line": budget_line,
         "date_line": date_line,
+        "avoid_line": avoid_line,
     }
 
     if not os.environ.get("GREENNODE_CLIENT_ID"):

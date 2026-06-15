@@ -10,6 +10,7 @@ async def run_recommendation_pipeline(
     axes: dict | None = None,
     user_need: str | None = None,
     budget: str | None = None,
+    disliked_places: list[str] | None = None,
 ) -> dict:
     """
     Pipeline: describe_vibe (instant) → search_and_plan (single LLM call).
@@ -20,7 +21,7 @@ async def run_recommendation_pipeline(
 
     vibe_info = await describe_vibe(resolved_persona, resolved_axes)
     result = await search_and_plan(
-        resolved_persona, resolved_axes, location, trip_type, duration, user_need, budget
+        resolved_persona, resolved_axes, location, trip_type, duration, user_need, budget, disliked_places
     )
     return {
         "vibe_info": vibe_info,
