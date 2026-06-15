@@ -3,6 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL
 import json
 import logging
+import os
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
@@ -21,14 +22,26 @@ def _allowed_price_ranges(budget: str | None) -> set[str] | None:
     """Map a budget string to allowed price_range tiers, or None for no filter."""
     if not budget:
         return None
-    b = budget.upper().replace("+", "").replace(",", "").replace(".", "")
+    b = budget.upper().strip()
+    # Remove trailing +
+    b = b.rstrip("+")
+
     if b.endswith("K"):
-        val = float(b[:-1]) * 1_000
-    elif b.endswith("M"):
-        val = float(b[:-1]) * 1_000_000
-    else:
         try:
-            val = float(b)
+            val = float(b[:-1].replace(",", "")) * 1_000
+        except ValueError:
+            return None
+    elif b.endswith("M"):
+        try:
+            val = float(b[:-1].replace(",", "")) * 1_000_000
+        except ValueError:
+            return None
+    else:
+        # Raw number — remove commas and dots used as thousands separators
+        # Dots as thousands separators only appear in patterns like 1.500.000 (no decimal)
+        raw = b.replace(",", "").replace(".", "")
+        try:
+            val = float(raw)
         except ValueError:
             return None
     if val <= 500_000:
@@ -179,10 +192,11 @@ Return a JSON object:
         "budget_line": budget_line,
         "date_line": date_line,
     }
-    
-    rendered = prompt.format_messages(**invoke_vars)
-    # for msg in rendered:
-    #     logger.info("[PROMPT] [%s]\n%s", msg.type.upper(), msg.content)
+
+    if not os.environ.get("GREENNODE_CLIENT_ID"):
+        rendered = prompt.format_messages(**invoke_vars)
+        for msg in rendered:
+            logger.info("[PROMPT] [%s]\n%s", msg.type.upper(), msg.content)
     result = await chain.ainvoke(invoke_vars)
 
     text = result.content.strip()
@@ -193,7 +207,7 @@ Return a JSON object:
 
     allowed = _allowed_price_ranges(budget)
     if allowed:
-        places = [p for p in data["places"] if p.get("price_range", "$") in allowed]
+        places = [p for p in data["places"] if p.get("price_range") in allowed]
         kept_names = {p["name"] for p in places}
         itinerary = [s for s in data["itinerary"] if s.get("name") in kept_names]
     else:
