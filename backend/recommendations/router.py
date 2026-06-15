@@ -1,10 +1,8 @@
-import aiosqlite
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from auth.router import get_current_user_id
 from memory.service import save_vibe_profile, get_vibe_profile, save_place_rating, get_place_ratings
 from agent.executor import run_recommendation_pipeline
-from config import SQLITE_PATH
 
 router = APIRouter(prefix="/api")
 
@@ -45,9 +43,6 @@ async def quiz_complete(
         "completed_at": datetime.now(timezone.utc).isoformat(),
     }
     await save_vibe_profile(user_id, profile)
-    async with aiosqlite.connect(SQLITE_PATH) as db:
-        await db.execute("UPDATE users SET has_vibe = 1 WHERE id = ?", (user_id,))
-        await db.commit()
     return {"status": "ok", "profile": profile}
 
 @router.get("/vibe")
