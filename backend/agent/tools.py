@@ -4,19 +4,8 @@ from config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL
 import json
 import logging
 import os
-from datetime import datetime
 
 logger = logging.getLogger(__name__)
-
-def _vietnam_season(month: int) -> str:
-    if month in (12, 1, 2):
-        return "Dry/Cool season"
-    elif month in (3, 4, 5):
-        return "Hot season"
-    elif month in (6, 7, 8):
-        return "Rainy season"
-    else:  # 9, 10, 11
-        return "Dry/Cool season"
 
 def _allowed_price_ranges(budget: str | None) -> set[str] | None:
     """Map a budget string to allowed price_range tiers, or None for no filter."""
@@ -125,9 +114,6 @@ async def search_and_plan(
 
     need_line = f"\nUser's current mood/need: {user_need}" if user_need else ""
     budget_line = f"\nTotal budget: {budget} VND" if budget else ""
-    now = datetime.now()
-    season = _vietnam_season(now.month)
-    date_line = f"\nCurrent date: {now.strftime('%A, %B %d, %Y')} ({season})"
     if disliked_places:
         avoid_line = "\nDo NOT suggest these places (user has previously disliked them):\n" + "\n".join(f"- {p}" for p in disliked_places)
     else:
@@ -142,9 +128,10 @@ STRICT RULES:
 3. MUST include specific address (street + district/ward) for each place
 4. Prioritize authentic, less-touristy spots matching the DNA over overcrowded landmarks
 5. If uncertain about a place's exact address, omit it
-6. Return 5-6 places maximum
+6. Return 5-6 places maximum, at least 3 places
 
-Output: valid JSON object only, no markdown, no explanation."""),
+Output: valid JSON object only, no markdown, no explanation.
+All descriptive text fields in the JSON output (description, why_match, tip) MUST be written in Vietnamese, for both places and itinerary items. Place names and addresses keep their original form."""),
         ("human", """Find places and build an itinerary in {location} for a {trip_type}.
 
 Traveler DNA persona: {persona}
@@ -152,7 +139,6 @@ Top travel axes:
 {axes_context}
 {need_line}
 {budget_line}
-{date_line}
 {avoid_line}
 Duration: {duration} {unit}
 Priority place type: {place_type_hint}
@@ -196,14 +182,12 @@ Return a JSON object:
         "place_type_hint": place_type_hint,
         "need_line": need_line,
         "budget_line": budget_line,
-        "date_line": date_line,
         "avoid_line": avoid_line,
     }
 
-    if not os.environ.get("GREENNODE_CLIENT_ID"):
-        rendered = prompt.format_messages(**invoke_vars)
-        for msg in rendered:
-            logger.info("[PROMPT] [%s]\n%s", msg.type.upper(), msg.content)
+    rendered = prompt.format_messages(**invoke_vars)
+    for msg in rendered:
+        logger.info("[PROMPT] [%s]\n%s", msg.type.upper(), msg.content)
     result = await chain.ainvoke(invoke_vars)
 
     text = result.content.strip()
