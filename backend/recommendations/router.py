@@ -22,6 +22,8 @@ class RecommendationsRequest(BaseModel):
     duration: int   # hours if inday, days if multiday
     persona: str | None = None
     scores: dict[str, int] | None = None
+    user_need: str | None = None
+    budget: str | None = None
 
 class PlaceRatingRequest(BaseModel):
     placeId: str
@@ -81,6 +83,8 @@ async def get_recommendations(
             duration=req.duration,
             persona=persona,
             axes=axes,
+            user_need=req.user_need,
+            budget=req.budget,
         )
         return result
     except Exception as e:

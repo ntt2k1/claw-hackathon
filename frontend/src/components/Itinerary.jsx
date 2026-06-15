@@ -127,7 +127,7 @@ export default function Itinerary({ recommendations, loading, tripType, location
       </main>
 
       {!loading && (
-        <div className="fixed bottom-0 left-0 w-full px-container-margin pb-10 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
+        <div className="fixed bottom-16 left-0 w-full px-container-margin pb-4 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
           <button
             onClick={onRestart}
             className="w-full bg-surface border-2 border-primary/30 text-primary py-4 rounded-full font-label text-label-md uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2"

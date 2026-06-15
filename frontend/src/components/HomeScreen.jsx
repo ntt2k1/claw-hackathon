@@ -8,7 +8,7 @@ export default function HomeScreen({ vibeResult, user, onStartQuiz, onGoExplore 
   }
 
   return (
-    <div className="relative min-h-screen bg-background flex flex-col items-center justify-center px-6 overflow-hidden">
+    <div className="relative min-h-screen bg-background flex flex-col items-center justify-center px-6 pb-16 overflow-hidden">
       {/* Floating orbs */}
       <div
         className="fixed top-[-100px] right-[-80px] w-[400px] h-[400px] rounded-full bg-primary/20 blur-3xl -z-10 pointer-events-none"
@@ -28,7 +28,7 @@ export default function HomeScreen({ vibeResult, user, onStartQuiz, onGoExplore 
       />
 
       {/* Center content */}
-      <div className="flex flex-col items-center text-center gap-5 pb-24">
+      <div className="flex flex-col items-center text-center gap-5">
         <h1 className="text-7xl font-black text-primary tracking-tighter leading-none">
           SOLE
         </h1>

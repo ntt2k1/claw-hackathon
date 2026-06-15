@@ -2,6 +2,9 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 def _get_llm(temperature: float = 0.4) -> ChatOpenAI:
     return ChatOpenAI(
@@ -127,7 +130,7 @@ Return a JSON object:
     ])
 
     chain = prompt | llm
-    result = await chain.ainvoke({
+    invoke_vars = {
         "persona": persona,
         "axes_context": axes_context,
         "location": location,
@@ -137,7 +140,12 @@ Return a JSON object:
         "place_type_hint": place_type_hint,
         "need_line": need_line,
         "budget_line": budget_line,
-    })
+    }
+    
+    rendered = prompt.format_messages(**invoke_vars)
+    # for msg in rendered:
+    #     logger.info("[PROMPT] [%s]\n%s", msg.type.upper(), msg.content)
+    result = await chain.ainvoke(invoke_vars)
 
     text = result.content.strip()
     if text.startswith("```"):

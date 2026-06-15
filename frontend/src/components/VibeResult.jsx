@@ -104,7 +104,7 @@ export default function VibeResult({ vibeResult, onContinue }) {
         </div>
       </section>
 
-      <div className="fixed bottom-0 left-0 w-full px-container-margin pb-10 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
+      <div className="fixed bottom-16 left-0 w-full px-container-margin pb-4 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
         <button
           onClick={onContinue}
           className="neon-gradient text-on-primary w-full py-4 rounded-full font-label text-label-md uppercase tracking-widest shadow-neon-green active:scale-95 transition-transform flex items-center justify-center gap-2 max-w-sm mx-auto"
