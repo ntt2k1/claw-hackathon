@@ -51,8 +51,21 @@ export default function App() {
       })
   }, [])
 
-  function handleAuthSuccess(userData) {
+  async function handleAuthSuccess(userData) {
     setUser(userData)
+    if (userData.has_vibe) {
+      try {
+        const profile = await api.getVibe()
+        setVibeResult({
+          primary: profile.primary_vibe,
+          secondary: profile.secondary_vibe,
+          axes: profile.scores || {},
+          persona: profile.persona || profile.primary_vibe,
+          tagline: '',
+          accentColor: '#BD00FF',
+        })
+      } catch (_) {}
+    }
     setScreen('HOME')
   }
 
