@@ -195,7 +195,7 @@ export default function App() {
       {screen === 'ENTRY'      && <EntryScreen user={user} vibeResult={vibeResult} onDone={handleEntryDone} onRetakeQuiz={handleRetakeQuiz} onLogout={handleLogout} />}
       {screen === 'QUIZ1'      && <QuizScreen questions={screen1Qs} screenIndex={1} totalScreens={2} onDone={handleQuiz1Done} />}
       {screen === 'QUIZ2'      && <QuizScreen questions={screen2Qs} screenIndex={2} totalScreens={2} onDone={handleQuiz2Done} />}
-      {screen === 'VIBE'       && <VibeResult vibeResult={vibeResult} onContinue={handleGetRecommendations} />}
+      {screen === 'VIBE'       && <VibeResult vibeResult={vibeResult} onContinue={() => { setScreen('ENTRY'); setActiveTab('explore') }} />}
       {screen === 'ITINERARY'  && <Itinerary recommendations={recommendations} loading={loadingRec} tripType={tripType} location={location} onRestart={handleRestart} />}
       {screen === 'YOUR_VIBE'  && <YourVibeScreen vibeResult={vibeResult} user={user} onLogout={handleLogout} onRetakeQuiz={handleRetakeQuiz} />}
       {showNav && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
