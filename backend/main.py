@@ -7,13 +7,11 @@ import logging
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s: %(message)s")
 
-from database import init_db
 from auth.router import router as auth_router
 from recommendations.router import router as recommendations_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_db()
     yield
 
 app = FastAPI(lifespan=lifespan)
