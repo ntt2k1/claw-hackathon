@@ -169,11 +169,11 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz, on
 
       <div className="mb-stack-md">
         <label className="font-label text-label-md text-on-surface-variant mb-2 block">
-          📍 Bạn đang ở đâu?
+          {tripType === 'inday' ? '📍 Bạn đang ở đâu?' : '🗺️ Bạn muốn đi đâu?'}
         </label>
         <input
           type="text"
-          placeholder="VD: Quận 1, TP.HCM"
+          placeholder={tripType === 'inday' ? 'VD: Quận 1, TP.HCM' : 'VD: Đà Lạt, Hội An, Phú Quốc...'}
           value={location}
           onChange={e => { setLocation(e.target.value); setError('') }}
           className="w-full bg-surface-container-high border border-outline-variant rounded-DEFAULT px-4 py-3 font-body text-body-md text-on-surface placeholder-on-surface-dim/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
