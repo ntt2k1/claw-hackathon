@@ -59,17 +59,30 @@ PERSONA_DESCRIPTIONS = {
     "Đa Tần Số":            ("✨", "Bạn đa chiều — SOLE đang khám phá thêm về bạn từng chuyến đi."),
 }
 
-AXIS_VI = {
-    "Ẩm thực": "ăn uống local chất lượng",
-    "Văn hoá": "văn hoá lịch sử kiến trúc",
-    "Thiên nhiên": "thiên nhiên không gian xanh",
-    "Phiêu lưu": "hoạt động phiêu lưu thử thách",
-    "Sang chảnh": "không gian sang trọng dịch vụ cao cấp",
-    "Giao lưu": "không khí sôi động giao lưu kết nối",
-    "Tọa độ ngách": "địa điểm ít người biết tọa độ ẩn",
-    "Thư giãn": "không gian yên tĩnh nghỉ ngơi thư giãn",
-    "Nhiếp ảnh": "góc đẹp ánh sáng tốt photogenic",
-    "Hiệu quả": "lịch trình tối ưu tiết kiệm thời gian",
+AXIS_EN = {
+    "Ẩm thực":      "Food",
+    "Văn hoá":      "Culture",
+    "Thiên nhiên":  "Nature",
+    "Phiêu lưu":    "Adventure",
+    "Sang chảnh":   "Luxury",
+    "Giao lưu":     "Social",
+    "Tọa độ ngách": "HiddenGem",
+    "Thư giãn":     "Comfort",
+    "Nhiếp ảnh":    "Photography",
+    "Hiệu quả":     "Efficiency",
+}
+
+SIGNATURE_RULES = {
+    "Ẩm thực":      "25–40% of itinerary stops must be food or dining experiences",
+    "Tọa độ ngách": "minimize tourist landmarks; prioritize hidden local spots, unmarked alleys, neighborhood-only venues",
+    "Thư giãn":     "cap at 3 activities total; no spots scheduled before 8 AM; prefer slow-paced venues",
+    "Hiệu quả":     "cluster all spots geographically to minimize travel time between stops",
+    "Nhiếp ảnh":    "prioritize spots with natural light, minimalist or aesthetic interiors, photogenic architecture",
+    "Giao lưu":     "include at least one evening/nightlife spot scheduled after 8 PM",
+    "Sang chảnh":   "prefer premium or boutique venues; avoid budget options",
+    "Thiên nhiên":  "prioritize parks, green spaces, outdoor venues over indoor spots",
+    "Văn hoá":      "include heritage sites, museums, or historical neighborhoods",
+    "Phiêu lưu":    "include at least one active outdoor or physically engaging activity",
 }
 
 async def describe_vibe(persona: str, axes: dict[str, int]) -> dict:
@@ -94,7 +107,7 @@ async def search_and_plan(
 
     top3 = sorted(axes.items(), key=lambda x: x[1], reverse=True)[:3]
     axes_context = "\n".join(
-        f"- {axis} ({score}%): {AXIS_VI.get(axis, axis)}"
+        f"- {AXIS_EN.get(axis, axis)} ({score}%)"
         for axis, score in top3
     )
 
@@ -119,6 +132,19 @@ async def search_and_plan(
     else:
         avoid_line = ""
 
+    hard_blocks = [AXIS_EN.get(ax, ax) for ax, sc in axes.items() if sc < 20]
+    if hard_blocks:
+        hard_block_line = "\nHARD BLOCK — never suggest places primarily associated with: " + ", ".join(hard_blocks)
+    else:
+        hard_block_line = ""
+
+    signatures = [(AXIS_EN.get(ax, ax), ax) for ax, sc in axes.items() if sc > 80]
+    if signatures:
+        rules = [SIGNATURE_RULES[vi] for _, vi in signatures if vi in SIGNATURE_RULES]
+        signature_line = "\nSIGNATURE traits — apply these rules strictly:\n" + "\n".join(f"- {r}" for r in rules)
+    else:
+        signature_line = ""
+
     prompt = ChatPromptTemplate.from_messages([
         ("system", """You are a Vietnam travel expert and itinerary planner with up-to-date local knowledge.
 
@@ -140,6 +166,8 @@ Top travel axes:
 {need_line}
 {budget_line}
 {avoid_line}
+{hard_block_line}
+{signature_line}
 Duration: {duration} {unit}
 Priority place type: {place_type_hint}
 
@@ -183,6 +211,8 @@ Return a JSON object:
         "need_line": need_line,
         "budget_line": budget_line,
         "avoid_line": avoid_line,
+        "hard_block_line": hard_block_line,
+        "signature_line": signature_line,
     }
 
     rendered = prompt.format_messages(**invoke_vars)
