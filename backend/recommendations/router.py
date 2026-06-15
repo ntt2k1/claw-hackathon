@@ -76,7 +76,9 @@ async def get_recommendations(
 
     try:
         ratings = await get_place_ratings(user_id)
-        disliked = [r["placeName"] for r in ratings if r.get("rating") == "dislike"]
+        disliked = [r["placeName"] for r in ratings
+                    if r.get("rating") == "dislike" and r.get("placeName")]
+        disliked = list(dict.fromkeys(disliked))
     except Exception:
         disliked = []
 

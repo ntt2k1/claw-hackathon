@@ -21,7 +21,7 @@ async def run_recommendation_pipeline(
 
     vibe_info = await describe_vibe(resolved_persona, resolved_axes)
     result = await search_and_plan(
-        resolved_persona, resolved_axes, location, trip_type, duration, user_need, budget, disliked_places
+        resolved_persona, resolved_axes, location, trip_type, duration, user_need, budget, disliked_places=disliked_places
     )
     return {
         "vibe_info": vibe_info,
