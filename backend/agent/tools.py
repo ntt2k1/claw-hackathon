@@ -3,8 +3,19 @@ from langchain_core.prompts import ChatPromptTemplate
 from config import LLM_BASE_URL, LLM_API_KEY, LLM_MODEL
 import json
 import logging
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
+
+def _vietnam_season(month: int) -> str:
+    if month in (12, 1, 2):
+        return "Dry/Cool season"
+    elif month in (3, 4, 5):
+        return "Hot season"
+    elif month in (6, 7, 8):
+        return "Rainy season"
+    else:  # 9, 10, 11
+        return "Dry/Cool season"
 
 def _get_llm(temperature: float = 0.4) -> ChatOpenAI:
     return ChatOpenAI(
@@ -78,6 +89,9 @@ async def search_and_plan(
 
     need_line = f"\nUser's current mood/need: {user_need}" if user_need else ""
     budget_line = f"\nTotal budget: {budget} VND" if budget else ""
+    now = datetime.now()
+    season = _vietnam_season(now.month)
+    date_line = f"\nCurrent date: {now.strftime('%A, %B %d, %Y')} ({season})"
 
     prompt = ChatPromptTemplate.from_messages([
         ("system", """You are a Vietnam travel expert and itinerary planner with up-to-date local knowledge.
@@ -98,6 +112,7 @@ Top travel axes:
 {axes_context}
 {need_line}
 {budget_line}
+{date_line}
 Duration: {duration} {unit}
 Priority place type: {place_type_hint}
 
@@ -140,6 +155,7 @@ Return a JSON object:
         "place_type_hint": place_type_hint,
         "need_line": need_line,
         "budget_line": budget_line,
+        "date_line": date_line,
     }
     
     rendered = prompt.format_messages(**invoke_vars)
