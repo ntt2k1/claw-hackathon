@@ -17,6 +17,28 @@ def _vietnam_season(month: int) -> str:
     else:  # 9, 10, 11
         return "Dry/Cool season"
 
+def _allowed_price_ranges(budget: str | None) -> set[str] | None:
+    """Map a budget string to allowed price_range tiers, or None for no filter."""
+    if not budget:
+        return None
+    b = budget.upper().replace("+", "").replace(",", "").replace(".", "")
+    if b.endswith("K"):
+        val = float(b[:-1]) * 1_000
+    elif b.endswith("M"):
+        val = float(b[:-1]) * 1_000_000
+    else:
+        try:
+            val = float(b)
+        except ValueError:
+            return None
+    if val <= 500_000:
+        return {"$"}
+    elif val <= 2_000_000:
+        return {"$", "$$"}
+    elif val < 5_000_000:
+        return {"$", "$$", "$$$"}
+    return None  # 5M+ = no filter
+
 def _get_llm(temperature: float = 0.4) -> ChatOpenAI:
     return ChatOpenAI(
         base_url=LLM_BASE_URL,
@@ -167,4 +189,15 @@ Return a JSON object:
     if text.startswith("```"):
         lines = text.split("\n")
         text = "\n".join(lines[1:-1] if lines[-1].strip() == "```" else lines[1:])
-    return json.loads(text)
+    data = json.loads(text)
+
+    allowed = _allowed_price_ranges(budget)
+    if allowed:
+        places = [p for p in data["places"] if p.get("price_range", "$") in allowed]
+        kept_names = {p["name"] for p in places}
+        itinerary = [s for s in data["itinerary"] if s.get("name") in kept_names]
+    else:
+        places = data["places"]
+        itinerary = data["itinerary"]
+
+    return {"places": places, "itinerary": itinerary}
