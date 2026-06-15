@@ -1,4 +1,5 @@
 import json
+import hashlib
 from greennode_agentbase.memory import MemoryClient
 from config import AGENTBASE_MEMORY_ID, AGENTBASE_STRATEGY_ID
 
@@ -60,3 +61,29 @@ async def get_place_ratings(user_id: str) -> list[dict]:
         except (json.JSONDecodeError, TypeError):
             pass
     return result
+
+def _user_auth_namespace(email: str) -> str:
+    email_hash = hashlib.sha256(email.lower().encode()).hexdigest()
+    return f"/strategies/{AGENTBASE_STRATEGY_ID}/global/users/{email_hash}"
+
+async def save_user_auth(email: str, record: dict) -> None:
+    record_str = json.dumps(record, ensure_ascii=False)
+    await _client.insert_memory_records_directly_async(
+        id=AGENTBASE_MEMORY_ID,
+        namespace=_user_auth_namespace(email),
+        request={"memoryRecords": [record_str]},
+    )
+
+async def get_user_by_email(email: str) -> dict | None:
+    records = await _client.list_memory_records_async(
+        id=AGENTBASE_MEMORY_ID,
+        namespace=_user_auth_namespace(email),
+    )
+    if not records:
+        return None
+    latest = records[-1]
+    raw = latest.get("memory", "") if isinstance(latest, dict) else getattr(latest, "memory", str(latest))
+    try:
+        return json.loads(raw)
+    except (json.JSONDecodeError, TypeError):
+        return None
