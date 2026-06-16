@@ -163,6 +163,7 @@ For each place in the itinerary:
 == STRICT RULES ==
 - ONLY include places you are CERTAIN exist with a verifiable address
 - NEVER invent place names, street numbers, or districts
+- For source_url: only include a real URL you are certain exists (official site, Foody, TripAdvisor, travel blog). Use empty string "" if uncertain — never fabricate a URL.
 - If address is uncertain → omit the place entirely
 - Return 8–12 places per itinerary, spread across morning / midday / afternoon / evening slots
 - Each place must match at least one keyword category from user input
@@ -193,7 +194,8 @@ Return a JSON object:
       "description": "1-2 sentence description",
       "why_match": "one sentence why it matches the DNA",
       "best_for": "which axis fits best (e.g. Ẩm thực)",
-      "price_range": "$ / $$ / $$$ / $$$$"
+      "price_range": "$ / $$ / $$$ / $$$$",
+      "source_url": "a real verifiable URL to a review, article, or official page — empty string if uncertain"
     }}
   ],
   "itinerary": [
