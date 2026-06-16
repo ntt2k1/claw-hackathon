@@ -3,7 +3,7 @@ import { api } from '../api.js'
 
 export default function Itinerary({ recommendations, loading, tripType, location, onRestart }) {
   const [ratings, setRatings] = useState({})
-  const [shareToast, setShareToast] = useState(false)
+  const [shareToast, setShareToast] = useState(false) // 'success' | 'error' | false
 
   const placeByName = useMemo(
     () => Object.fromEntries((recommendations?.places || []).map(p => [p.name, p])),
@@ -48,10 +48,12 @@ export default function Itinerary({ recommendations, loading, tripType, location
       } catch {
         window.prompt('Copy link chia sẻ:', url)
       }
-      setShareToast(true)
+      setShareToast('success')
       setTimeout(() => setShareToast(false), 2000)
     } catch (e) {
       console.warn('Share failed:', e)
+      setShareToast('error')
+      setTimeout(() => setShareToast(false), 2000)
     }
   }
 
@@ -189,9 +191,14 @@ export default function Itinerary({ recommendations, loading, tripType, location
 
       {!loading && (
         <div className="sticky bottom-0 w-full px-container-margin pb-4 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
-          {shareToast && (
+          {shareToast === 'success' && (
             <div className="mb-3 bg-primary/10 border border-primary/30 text-primary font-label text-label-md text-center py-2 rounded-full">
               ✅ Đã copy link chia sẻ!
+            </div>
+          )}
+          {shareToast === 'error' && (
+            <div className="mb-3 bg-red-500/10 border border-red-500/30 text-red-400 font-label text-label-md text-center py-2 rounded-full">
+              ❌ Không thể tạo link, thử lại.
             </div>
           )}
           <div className="flex gap-3">
