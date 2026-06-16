@@ -1,8 +1,21 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { api } from '../api.js'
 
 export default function Itinerary({ recommendations, loading, tripType, location, onRestart }) {
   const [ratings, setRatings] = useState({})
+
+  const placeByName = useMemo(
+    () => Object.fromEntries((recommendations?.places || []).map(p => [p.name, p])),
+    [recommendations]
+  )
+
+  function buildMapsUrl(item) {
+    const place = placeByName[item.name] || {}
+    const q = [item.name, item.address || place.address, place.district]
+      .filter(Boolean)
+      .join(' ')
+    return `https://maps.google.com/?q=${encodeURIComponent(q)}`
+  }
 
   async function handleRate(item, index, rating) {
     const placeId = `${index}-${(item.name || '').replace(/\s+/g, '-').toLowerCase()}`
@@ -83,10 +96,11 @@ export default function Itinerary({ recommendations, loading, tripType, location
                       </span>
                     )}
                   </div>
-                  <div className="mt-3 pt-3 border-t border-outline-variant flex gap-3">
+                  <div className="mt-3 pt-3 border-t border-outline-variant flex gap-3 items-center">
                     {(() => {
                       const placeId = `${i}-${(item.name || '').replace(/\s+/g, '-').toLowerCase()}`
                       const current = ratings[placeId]
+                      const sourceUrl = placeByName[item.name]?.source_url
                       return (
                         <>
                           <button
@@ -109,6 +123,28 @@ export default function Itinerary({ recommendations, loading, tripType, location
                           >
                             👎 <span>Không hợp</span>
                           </button>
+                          <div className="ml-auto flex gap-2">
+                            <a
+                              href={buildMapsUrl(item)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-center w-8 h-8 rounded-full bg-surface-high border border-outline-variant text-on-surface-variant hover:border-primary/50 hover:text-primary transition-colors text-sm"
+                              title="Xem trên Google Maps"
+                            >
+                              📍
+                            </a>
+                            {sourceUrl && (
+                              <a
+                                href={sourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-center w-8 h-8 rounded-full bg-surface-high border border-outline-variant text-on-surface-variant hover:border-primary/50 hover:text-primary transition-colors text-sm"
+                                title="Đọc thêm"
+                              >
+                                🔗
+                              </a>
+                            )}
+                          </div>
                         </>
                       )
                     })()}
