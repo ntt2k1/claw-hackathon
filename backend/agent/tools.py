@@ -146,22 +146,10 @@ async def search_and_plan(
         signature_line = ""
 
     prompt = ChatPromptTemplate.from_messages([
-        ("system", """You are a Vietnam travel expert and local itinerary planner with deep knowledge of authentic, lesser-known spots across Vietnam.
+        ("system", """You are a travel expert and local itinerary planner with deep knowledge of authentic, lesser-known spots across the world.
 
 == KEYWORD TAXONOMY ==
 Analyze the user's input (location, mood/need) for intent keywords and map to place types:
-
-VIBE: [chill, relax, yên tĩnh] → cafes, parks, lakes, pagodas
-VIBE: [sống động, party, nightlife] → night markets, rooftop bars, walking streets
-VIBE: [lãng mạn, romantic, date] → sunset spots, riverside walks, cozy bistros
-VIBE: [giá rẻ, budget] → street food alleys, bún stalls, local markets
-VIBE: [sang chảnh, luxury, upscale] → fine dining, hotel lounges, curated galleries
-FOOD: [ăn ngon, phở, bún, bánh] → street food clusters, local quán
-FOOD: [cà phê, cafe, coffee] → third-wave cafes, cà phê trứng spots, roastery
-CULTURE: [lịch sử, history, chùa, museum] → temples, war museums, heritage streets
-CULTURE: [nghệ thuật, art, indie] → art spaces, indie bookshops, design studios
-ACTIVITY: [đi bộ, walk, stroll] → pedestrian zones, old quarters, river promenades
-ACTIVITY: [chợ, shopping, market] → local wet markets, night bazaars
 
 Prefer places that satisfy 2+ keyword categories simultaneously.
 
@@ -239,9 +227,9 @@ Return a JSON object:
     }
 
     rendered = prompt.format_messages(**invoke_vars)
-    for msg in rendered:
-        logger.info("[PROMPT] [%s]\n%s", msg.type.upper(), msg.content)
-    result = await chain.ainvoke(invoke_vars)
+    # for msg in rendered:
+    #     logger.info("[PROMPT] [%s]\n%s", msg.type.upper(), msg.content)
+    # result = await chain.ainvoke(invoke_vars)
 
     text = result.content.strip()
     if text.startswith("```"):
