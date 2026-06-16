@@ -36,11 +36,11 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz, on
   }
 
   return (
-    <div className="min-h-screen flex flex-col px-container-margin pt-20 pb-32 relative overflow-hidden bg-background">
-      <div className="fixed top-0 right-0 w-64 h-64 bg-cyber-purple/10 rounded-full blur-3xl -z-10" />
-      <div className="fixed bottom-1/4 left-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl -z-10" />
+    <div className="min-h-screen flex flex-col relative overflow-hidden bg-background">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-cyber-purple/10 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl -z-10" />
 
-      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-outline-variant flex justify-between items-center px-container-margin h-16 left-0">
+      <header className="sticky top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-outline-variant flex justify-between items-center px-container-margin h-16">
         <div className="w-8" />
         <h1 className="font-display text-headline-lg-mobile text-primary tracking-tighter">SOLE</h1>
         {user ? (
@@ -57,6 +57,7 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz, on
         ) : <div className="w-8" />}
       </header>
 
+      <div className="flex-1 px-container-margin pb-32 overflow-y-auto">
       <div className="mb-stack-lg mt-4">
         <p className="font-label text-label-md text-primary uppercase tracking-widest bg-primary/10 border border-primary/30 px-4 py-1 rounded-full inline-block mb-stack-sm">
           {user?.has_vibe ? 'Khám phá tiếp' : 'Bắt đầu'}
@@ -181,7 +182,9 @@ export default function EntryScreen({ user, vibeResult, onDone, onRetakeQuiz, on
         {error && <p className="text-red-400 font-label text-caption mt-1">{error}</p>}
       </div>
 
-      <div className="fixed bottom-16 left-0 w-full px-container-margin pb-4 pt-8 bg-gradient-to-t from-background via-background/95 to-transparent">
+      </div>{/* end scrollable content */}
+
+      <div className="sticky bottom-0 w-full px-container-margin pb-4 pt-8 bg-gradient-to-t from-background via-background/95 to-transparent">
         <button
           onClick={handleContinue}
           className="neon-gradient text-on-primary w-full py-4 rounded-full font-label text-label-md uppercase tracking-widest shadow-neon-green active:scale-95 transition-transform flex items-center justify-center gap-2"

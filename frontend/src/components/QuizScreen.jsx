@@ -29,7 +29,7 @@ export default function QuizScreen({ questions, screenIndex, totalScreens, onDon
 
   return (
     <div className="min-h-screen bg-background pb-12 overflow-x-hidden">
-      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-outline-variant px-4 h-20 flex flex-col justify-center gap-2">
+      <header className="sticky top-0 w-full z-50 bg-surface/80 backdrop-blur-2xl border-b border-outline-variant px-4 h-20 flex flex-col justify-center gap-2">
         <div className="flex justify-between items-center w-full">
           <span className="text-sm font-semibold text-primary tracking-widest uppercase">Discovery</span>
           <span className="text-sm text-on-surface-variant">
@@ -44,7 +44,7 @@ export default function QuizScreen({ questions, screenIndex, totalScreens, onDon
         </div>
       </header>
 
-      <main className="pt-28 pb-12 px-4">
+      <main className="pt-4 pb-12 px-4">
         <section className="mb-8">
           <h1 className="text-2xl font-bold text-on-surface leading-tight">
             {question.question}

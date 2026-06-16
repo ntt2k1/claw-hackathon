@@ -11,19 +11,19 @@ export default function HomeScreen({ vibeResult, user, onStartQuiz, onGoExplore 
     <div className="relative min-h-screen bg-background flex flex-col items-center justify-center px-6 pb-16 overflow-hidden">
       {/* Floating orbs */}
       <div
-        className="fixed top-[-100px] right-[-80px] w-[400px] h-[400px] rounded-full bg-primary/20 blur-3xl -z-10 pointer-events-none"
+        className="absolute top-[-100px] right-[-80px] w-[400px] h-[400px] rounded-full bg-primary/20 blur-3xl -z-10 pointer-events-none"
         style={{ animation: 'float-orb-1 14s ease-in-out infinite' }}
       />
       <div
-        className="fixed bottom-[-80px] left-[-60px] w-[350px] h-[350px] rounded-full bg-cyber-purple/20 blur-3xl -z-10 pointer-events-none"
+        className="absolute bottom-[-80px] left-[-60px] w-[350px] h-[350px] rounded-full bg-cyber-purple/20 blur-3xl -z-10 pointer-events-none"
         style={{ animation: 'float-orb-2 18s ease-in-out infinite' }}
       />
       <div
-        className="fixed top-[20%] left-[-40px] w-[250px] h-[250px] rounded-full bg-primary/10 blur-3xl -z-10 pointer-events-none"
+        className="absolute top-[20%] left-[-40px] w-[250px] h-[250px] rounded-full bg-primary/10 blur-3xl -z-10 pointer-events-none"
         style={{ animation: 'float-orb-3 11s ease-in-out infinite' }}
       />
       <div
-        className="fixed bottom-[20%] right-[-30px] w-[300px] h-[300px] rounded-full bg-cyber-purple/15 blur-3xl -z-10 pointer-events-none"
+        className="absolute bottom-[20%] right-[-30px] w-[300px] h-[300px] rounded-full bg-cyber-purple/15 blur-3xl -z-10 pointer-events-none"
         style={{ animation: 'float-orb-4 20s ease-in-out infinite' }}
       />
 

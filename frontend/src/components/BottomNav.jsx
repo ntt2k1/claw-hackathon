@@ -6,7 +6,7 @@ const TABS = [
 
 export default function BottomNav({ activeTab, onTabChange }) {
   return (
-    <nav className="fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-2xl border-t border-outline-variant z-50">
+    <nav className="sticky bottom-0 w-full bg-surface/90 backdrop-blur-2xl border-t border-outline-variant z-50 mt-auto">
       <div className="flex justify-around items-center h-16 px-2">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id
