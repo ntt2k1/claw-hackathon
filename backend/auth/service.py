@@ -2,7 +2,7 @@ import uuid
 import bcrypt
 from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
-from config import JWT_SECRET, JWT_ALGORITHM, JWT_EXPIRE_HOURS
+from config import JWT_SECRET, JWT_ALGORITHM, JWT_EXPIRE_HOURS, SHARE_TTL_HOURS
 
 def hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
@@ -24,3 +24,13 @@ def new_user_id() -> str:
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+def create_share_jwt(data: dict) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(hours=SHARE_TTL_HOURS)
+    payload = {"share": data, "exp": expire}
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+
+def decode_share_jwt(token: str) -> dict:
+    """Returns the share data dict, or raises JWTError if invalid/expired."""
+    payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+    return payload["share"]

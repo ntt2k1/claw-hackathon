@@ -10,6 +10,7 @@ LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
 JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret-change-in-prod")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_HOURS = 24 * 7  # 7 days
+SHARE_TTL_HOURS = int(os.getenv("SHARE_TTL_HOURS", "48"))
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./sole.db")
 SQLITE_PATH = os.getenv("SQLITE_PATH", "./data/sole.db")
