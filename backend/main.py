@@ -12,6 +12,8 @@ from recommendations.router import router as recommendations_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    from database import init_db
+    await init_db()
     yield
 
 app = FastAPI(lifespan=lifespan)

@@ -126,21 +126,19 @@ async def create_share(
     req: ShareRequest,
     _user_id: str = Depends(get_current_user_id),
 ):
-    from auth.service import create_share_jwt
-    token = create_share_jwt({
+    from database import save_share
+    share_id = await save_share({
         "places": req.places,
         "itinerary": req.itinerary,
         "location": req.location,
         "trip_type": req.trip_type,
     })
-    return {"token": token}
+    return {"token": share_id}
 
 @router.get("/share/{token}")
-async def get_share(token: str):
-    from auth.service import decode_share_jwt
-    from jose import JWTError
-    try:
-        data = decode_share_jwt(token)
-        return data
-    except JWTError:
+async def get_share_endpoint(token: str):
+    from database import get_share
+    data = await get_share(token)
+    if data is None:
         raise HTTPException(status_code=410, detail="Link đã hết hạn hoặc không hợp lệ")
+    return data
