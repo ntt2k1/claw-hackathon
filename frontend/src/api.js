@@ -32,4 +32,13 @@ export const api = {
   saveToken: (token) => localStorage.setItem('sole_token', token),
   clearToken: () => localStorage.removeItem('sole_token'),
   hasToken: () => !!getToken(),
+  createShare({ places, itinerary, location, trip_type }) {
+    return request('POST', '/share', { places, itinerary, location, trip_type })
+  },
+  async getShare(token) {
+    const res = await fetch(`/api/share/${token}`)
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.detail || 'Link hết hạn')
+    return data
+  },
 }
