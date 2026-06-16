@@ -29,6 +29,12 @@ class PlaceRatingRequest(BaseModel):
     category: str
     rating: str  # "like" | "dislike"
 
+class ShareRequest(BaseModel):
+    places: list
+    itinerary: list
+    location: str
+    trip_type: str
+
 @router.post("/quiz/complete")
 async def quiz_complete(
     req: QuizCompleteRequest,
@@ -114,3 +120,27 @@ async def rate_place(
 async def list_ratings(user_id: str = Depends(get_current_user_id)):
     ratings = await get_place_ratings(user_id)
     return {"ratings": ratings}
+
+@router.post("/share")
+async def create_share(
+    req: ShareRequest,
+    user_id: str = Depends(get_current_user_id),
+):
+    from auth.service import create_share_jwt
+    token = create_share_jwt({
+        "places": req.places,
+        "itinerary": req.itinerary,
+        "location": req.location,
+        "trip_type": req.trip_type,
+    })
+    return {"token": token}
+
+@router.get("/share/{token}")
+async def get_share(token: str):
+    from auth.service import decode_share_jwt
+    from jose import JWTError
+    try:
+        data = decode_share_jwt(token)
+        return data
+    except JWTError:
+        raise HTTPException(status_code=410, detail="Link đã hết hạn hoặc không hợp lệ")
