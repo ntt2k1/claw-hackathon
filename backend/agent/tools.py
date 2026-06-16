@@ -163,7 +163,7 @@ For each place in the itinerary:
 == STRICT RULES ==
 - ONLY include places you are CERTAIN exist with a verifiable address
 - NEVER invent place names, street numbers, or districts
-- For source_url: only include a real URL you are certain exists (official site, Foody, TripAdvisor, travel blog). Use empty string "" if uncertain — never fabricate a URL.
+- For source_url: only include the official homepage URL of the place if you are certain it exists (e.g. the restaurant's own website). Do NOT guess or construct review-platform listing URLs (Foody, TripAdvisor, etc.) for specific places — those are almost always wrong. Use empty string "" when in doubt.
 - If address is uncertain → omit the place entirely
 - Return 8–12 places per itinerary, spread across morning / midday / afternoon / evening slots
 - Each place must match at least one keyword category from user input

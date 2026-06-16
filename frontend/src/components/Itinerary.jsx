@@ -124,15 +124,17 @@ export default function Itinerary({ recommendations, loading, tripType, location
                             👎 <span>Không hợp</span>
                           </button>
                           <div className="ml-auto flex gap-2">
-                            <a
-                              href={buildMapsUrl(item)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center justify-center w-8 h-8 rounded-full bg-surface-high border border-outline-variant text-on-surface-variant hover:border-primary/50 hover:text-primary transition-colors text-sm"
-                              title="Xem trên Google Maps"
-                            >
-                              📍
-                            </a>
+                            {item.name && (
+                              <a
+                                href={buildMapsUrl(item)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-center w-8 h-8 rounded-full bg-surface-high border border-outline-variant text-on-surface-variant hover:border-primary/50 hover:text-primary transition-colors text-sm"
+                                title="Xem trên Google Maps"
+                              >
+                                📍
+                              </a>
+                            )}
                             {sourceUrl && (
                               <a
                                 href={sourceUrl}
