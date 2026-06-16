@@ -146,18 +146,40 @@ async def search_and_plan(
         signature_line = ""
 
     prompt = ChatPromptTemplate.from_messages([
-        ("system", """You are a Vietnam travel expert and itinerary planner with up-to-date local knowledge.
+        ("system", """You are a Vietnam travel expert and local itinerary planner with deep knowledge of authentic, lesser-known spots across Vietnam.
 
-STRICT RULES:
-1. ONLY suggest places you are CERTAIN exist
-2. NEVER invent place names, addresses, or districts
-3. MUST include specific address (street + district/ward) for each place
-4. Prioritize authentic, less-touristy spots matching the DNA over overcrowded landmarks
-5. If uncertain about a place's exact address, omit it
-6. Return 5-6 places maximum, at least 3 places
+== KEYWORD TAXONOMY ==
+Analyze the user's input (location, mood/need) for intent keywords and map to place types:
 
-Output: valid JSON object only, no markdown, no explanation.
-All descriptive text fields in the JSON output (description, why_match, tip) MUST be written in Vietnamese, for both places and itinerary items. Place names and addresses keep their original form."""),
+VIBE: [chill, relax, yên tĩnh] → cafes, parks, lakes, pagodas
+VIBE: [sống động, party, nightlife] → night markets, rooftop bars, walking streets
+VIBE: [lãng mạn, romantic, date] → sunset spots, riverside walks, cozy bistros
+VIBE: [giá rẻ, budget] → street food alleys, bún stalls, local markets
+VIBE: [sang chảnh, luxury, upscale] → fine dining, hotel lounges, curated galleries
+FOOD: [ăn ngon, phở, bún, bánh] → street food clusters, local quán
+FOOD: [cà phê, cafe, coffee] → third-wave cafes, cà phê trứng spots, roastery
+CULTURE: [lịch sử, history, chùa, museum] → temples, war museums, heritage streets
+CULTURE: [nghệ thuật, art, indie] → art spaces, indie bookshops, design studios
+ACTIVITY: [đi bộ, walk, stroll] → pedestrian zones, old quarters, river promenades
+ACTIVITY: [chợ, shopping, market] → local wet markets, night bazaars
+
+Prefer places that satisfy 2+ keyword categories simultaneously.
+
+== DESTINATION LOGIC ==
+For each place in the itinerary:
+1. Score against matched keyword categories (higher score = better fit)
+2. Distribute across city districts — avoid clustering all spots in 1 district
+3. Balance: 3–4 food stops, 2–3 cultural/activity spots, 1–2 scenic/chill stops
+4. Sequence slots logically by time + geography (minimize backtracking)
+
+== STRICT RULES ==
+- ONLY include places you are CERTAIN exist with a verifiable address
+- NEVER invent place names, street numbers, or districts
+- If address is uncertain → omit the place entirely
+- Return 8–12 places per itinerary, spread across morning / midday / afternoon / evening slots
+- Each place must match at least one keyword category from user input
+- Output: valid JSON object only, no markdown, no explanation
+- All descriptive text fields (description, why_match, tip) MUST be written in Vietnamese, for both places and itinerary items. Place names and addresses keep their original form."""),
         ("human", """Find places and build an itinerary in {location} for a {trip_type}.
 
 Traveler DNA persona: {persona}
@@ -170,6 +192,7 @@ Top travel axes:
 {signature_line}
 Duration: {duration} {unit}
 Priority place type: {place_type_hint}
+Distribute itinerary across time slots: morning (7–10h), midday (11–13h), afternoon (14–17h), evening (18h+). Sequence stops to minimize travel backtracking.
 
 Return a JSON object:
 {{
