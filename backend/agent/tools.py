@@ -226,11 +226,7 @@ Return a JSON object:
         "signature_line": signature_line,
     }
 
-    rendered = prompt.format_messages(**invoke_vars)
-    # for msg in rendered:
-    #     logger.info("[PROMPT] [%s]\n%s", msg.type.upper(), msg.content)
-    # result = await chain.ainvoke(invoke_vars)
-
+    result = await chain.ainvoke(invoke_vars)
     text = result.content.strip()
     if text.startswith("```"):
         lines = text.split("\n")
