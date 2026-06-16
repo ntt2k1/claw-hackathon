@@ -3,6 +3,7 @@ import { api } from '../api.js'
 
 export default function Itinerary({ recommendations, loading, tripType, location, onRestart }) {
   const [ratings, setRatings] = useState({})
+  const [shareToast, setShareToast] = useState(false)
 
   const placeByName = useMemo(
     () => Object.fromEntries((recommendations?.places || []).map(p => [p.name, p])),
@@ -29,6 +30,28 @@ export default function Itinerary({ recommendations, loading, tripType, location
       })
     } catch (e) {
       console.warn('Rating failed:', e)
+    }
+  }
+
+  async function handleShare() {
+    if (!recommendations) return
+    try {
+      const { token } = await api.createShare({
+        places: recommendations.places || [],
+        itinerary: recommendations.itinerary || [],
+        location: location || '',
+        trip_type: tripType || 'inday',
+      })
+      const url = `${window.location.origin}/share/${token}`
+      try {
+        await navigator.clipboard.writeText(url)
+      } catch {
+        window.prompt('Copy link chia sẻ:', url)
+      }
+      setShareToast(true)
+      setTimeout(() => setShareToast(false), 2000)
+    } catch (e) {
+      console.warn('Share failed:', e)
     }
   }
 
@@ -166,13 +189,27 @@ export default function Itinerary({ recommendations, loading, tripType, location
 
       {!loading && (
         <div className="sticky bottom-0 w-full px-container-margin pb-4 pt-12 bg-gradient-to-t from-background via-background/95 to-transparent">
-          <button
-            onClick={onRestart}
-            className="w-full bg-surface border-2 border-primary/30 text-primary py-4 rounded-full font-label text-label-md uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2"
-          >
-            <span className="material-symbols-outlined">refresh</span>
-            Lên kế hoạch lại
-          </button>
+          {shareToast && (
+            <div className="mb-3 bg-primary/10 border border-primary/30 text-primary font-label text-label-md text-center py-2 rounded-full">
+              ✅ Đã copy link chia sẻ!
+            </div>
+          )}
+          <div className="flex gap-3">
+            <button
+              onClick={handleShare}
+              className="flex-1 bg-surface border-2 border-primary/30 text-primary py-4 rounded-full font-label text-label-md uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined">share</span>
+              Chia sẻ
+            </button>
+            <button
+              onClick={onRestart}
+              className="flex-1 bg-surface border-2 border-primary/30 text-primary py-4 rounded-full font-label text-label-md uppercase tracking-widest active:scale-95 transition-transform flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined">refresh</span>
+              Lên kế hoạch lại
+            </button>
+          </div>
         </div>
       )}
     </div>

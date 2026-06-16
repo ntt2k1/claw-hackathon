@@ -10,6 +10,7 @@ import { QUESTIONS } from './data/questions.js'
 import BottomNav from './components/BottomNav.jsx'
 import YourVibeScreen from './components/YourVibeScreen.jsx'
 import HomeScreen from './components/HomeScreen.jsx'
+import SharedItinerary from './components/SharedItinerary.jsx'
 
 export default function App() {
   const [screen, setScreen] = useState('AUTH')
@@ -193,6 +194,18 @@ export default function App() {
   const screen1Qs = QUESTIONS.slice(0, 5)
   const screen2Qs = QUESTIONS.slice(5, 10)
   const showNav = !['AUTH', 'QUIZ1', 'QUIZ2'].includes(screen)
+
+  // Check share route before rendering auth/main flow
+  const shareMatch = window.location.pathname.match(/^\/share\/(.+)$/)
+  if (shareMatch) {
+    return (
+      <div className="min-h-screen bg-zinc-950 flex justify-center">
+        <div className="w-full max-w-[430px] min-h-screen bg-background relative flex flex-col overflow-x-hidden">
+          <SharedItinerary token={shareMatch[1]} />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 flex justify-center">
