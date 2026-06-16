@@ -30,8 +30,8 @@ class PlaceRatingRequest(BaseModel):
     rating: str  # "like" | "dislike"
 
 class ShareRequest(BaseModel):
-    places: list
-    itinerary: list
+    places: list[dict]
+    itinerary: list[dict]
     location: str
     trip_type: str
 
@@ -124,7 +124,7 @@ async def list_ratings(user_id: str = Depends(get_current_user_id)):
 @router.post("/share")
 async def create_share(
     req: ShareRequest,
-    user_id: str = Depends(get_current_user_id),
+    _user_id: str = Depends(get_current_user_id),
 ):
     from auth.service import create_share_jwt
     token = create_share_jwt({
