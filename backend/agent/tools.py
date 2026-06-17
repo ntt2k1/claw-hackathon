@@ -229,6 +229,7 @@ Return a JSON object:
     }
 
     result = await chain.ainvoke(invoke_vars)
+    logger.info("LLM raw response: %s", result.content)
     text = result.content.strip()
     if text.startswith("```"):
         lines = text.split("\n")
